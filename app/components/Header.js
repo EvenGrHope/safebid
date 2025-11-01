@@ -29,7 +29,7 @@ export default function Header() {
             height={36}
             priority
           />
-          <span className="text-xl font-bold text-blue-700">BytteKlar</span>
+          <span className="text-xl font-bold text-blue-700">BytteKlar.no</span>
         </Link>
 
         {/* Desktop links */}
