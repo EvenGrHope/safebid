@@ -44,7 +44,7 @@ export default function Home() {
       <section className="py-24 bg-gradient-to-b from-white to-blue-50">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-6 text-gray-900">
-            Slik fungerer <span className="text-blue-700">SafeBid</span>
+            Slik fungerer <span className="text-blue-700">BytteKlar.no</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-16">
             Vi gjør det enkelt å få de beste forsikringstilbudene. Du fyller ut ett
@@ -105,7 +105,7 @@ export default function Home() {
       <section className="py-20 bg-blue-50 border-t border-blue-100">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-12">
-            Derfor velger kunder <span className="text-blue-700">SafeBid</span>
+            Derfor velger kunder <span className="text-blue-700">BytteKlar</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -246,7 +246,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-10 text-center text-gray-500 text-sm bg-gray-50 border-t">
-        <p>© {new Date().getFullYear()} Safebid. Alle rettigheter forbeholdt.</p>
+        <p>© {new Date().getFullYear()} Bytteklar. Alle rettigheter forbeholdt.</p>
         <p className="mt-2">Personvern | Kontakt | Om oss</p>
       </footer>
     </main>
