@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Safebid - sammenlign forsikringstilbud",
+  title: "Bytteklar - sammenlign forsikringstilbud",
   description: "Få forsikringstilbud fra flere rådgivere - på en gang",
 };
 
