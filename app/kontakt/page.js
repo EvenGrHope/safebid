@@ -17,11 +17,11 @@ export default function ContactPage() {
 
         <div className="relative max-w-4xl mx-auto text-center px-6">
           <h1 className="text-5xl font-bold mb-6 text-gray-900">
-            Kontakt <span className="text-blue-700">Safebid</span>
+            Kontakt <span className="text-blue-700">BytteKlar</span>
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
             Har du spørsmål, ønsker samarbeid, eller vil vite mer om hvordan
-            Safebid fungerer? Vi hører gjerne fra deg.
+            Bytteklar fungerer? Vi hører gjerne fra deg.
           </p>
         </div>
       </section>
@@ -122,7 +122,7 @@ export default function ContactPage() {
             <div className="flex items-center gap-2">
               <input type="checkbox" required />
               <p className="text-sm text-gray-600">
-                Jeg samtykker til at Safebid kan behandle mine opplysninger i
+                Jeg samtykker til at Bytteklar kan behandle mine opplysninger i
                 henhold til personvernerklæringen.
               </p>
             </div>
@@ -144,7 +144,7 @@ export default function ContactPage() {
             Ønsker du å samarbeide med oss?
           </h2>
           <p className="text-lg mb-8 opacity-90">
-            Safebid samarbeider med forsikringsselskaper, rådgivere og
+            Bytteklar.no samarbeider med forsikringsselskaper, rådgivere og
             bedriftskunder over hele landet.
           </p>
           <Link
@@ -158,7 +158,7 @@ export default function ContactPage() {
 
       {/* Footer */}
       <footer className="py-10 text-center text-gray-500 text-sm bg-gray-50 border-t">
-        <p>© {new Date().getFullYear()} Safebid. Alle rettigheter forbeholdt.</p>
+        <p>© {new Date().getFullYear()} BytteKlar. Alle rettigheter forbeholdt.</p>
       </footer>
     </main>
   );
