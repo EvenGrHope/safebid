@@ -82,8 +82,11 @@ export default function ForsikringerPage() {
     <main className="min-h-screen bg-gray-50 pb-32 pt-12 px-4">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold text-blue-800 text-center mb-12">
-          Våre forsikringer
+          Sammenlign tilbud på forsikringene dine
         </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-16">
+            Velg alle forsikringene du ønsker tilbud på - få tilbud fra flere etablerte selskaper.
+          </p>
 
         {Object.entries(groupedProducts).map(([category, products]) => (
           <div key={category} className="mb-12">
