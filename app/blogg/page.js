@@ -159,7 +159,7 @@ export default function BlogPage() {
 
       {/* Footer */}
       <footer className="py-10 text-center text-gray-500 text-sm bg-gray-50 border-t">
-        <p>© {new Date().getFullYear()} Safebid. Alle rettigheter forbeholdt.</p>
+        <p>© {new Date().getFullYear()} BytteKlar. Alle rettigheter forbeholdt.</p>
       </footer>
     </main>
   );
