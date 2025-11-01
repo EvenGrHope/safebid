@@ -105,7 +105,7 @@ export default function Home() {
       <section className="py-20 bg-blue-50 border-t border-blue-100">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-12">
-            Derfor velger kunder <span className="text-blue-700">BytteKlar</span>
+            Derfor velger kunder <span className="text-blue-700">BytteKlar.no</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
