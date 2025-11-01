@@ -17,11 +17,11 @@ export default function AboutPage() {
 
         <div className="relative max-w-4xl mx-auto text-center px-6">
           <h1 className="text-5xl font-bold mb-6 text-gray-900">
-            Om <span className="text-blue-700">BytteKlar</span>
+            Om <span className="text-blue-700">BytteKlar.no</span>
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
-            Safebid er en norsk anbudstjeneste som gjør det enkelt å sammenligne
-            forsikringstilbud fra flere rådgivere – raskt, trygt og helt
+            Bytteklar.no er en norsk anbudstjeneste som gjør det enkelt for deg å sammenligne
+            forsikringstilbud fra flere selskaper – raskt, trygt og helt
             uforpliktende.
           </p>
         </div>
@@ -34,9 +34,9 @@ export default function AboutPage() {
             Vår visjon og verdier
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-16">
-            Vi tror på transparens, konkurranse og trygghet. Safebid skal gjøre
-            det enklere å ta gode beslutninger – uansett om du eier bolig, bil
-            eller driver bedrift.
+            Vi tror på transparens, konkurranse og trygghet. Bytteklar.no skal gjøre
+            det enklere å ta gode beslutninger og spare penger på forsikringene – uansett om du eier bolig, bil
+            eller skal ut på reise. 
           </p>
 
           <div className="grid md:grid-cols-3 gap-10">
@@ -77,7 +77,7 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Hvem vi er</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-10">
-            Bytteklar er utviklet av mennesker med bakgrunn fra både økonomi,
+            Bytteklar.no er utviklet av mennesker med bakgrunn fra både økonomi,
             forsikring og teknologi. Vi ønsker å gi kundene makten tilbake – og
             gjøre forsikring enklere, mer transparent og konkurransedyktig.
           </p>
@@ -106,7 +106,8 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer className="py-10 text-center text-gray-500 text-sm bg-gray-50 border-t">
-        <p>© {new Date().getFullYear()} Bytteklar. Alle rettigheter forbeholdt.</p>
+        <p>© {new Date().getFullYear()} Bytteklar.no. Alle rettigheter forbeholdt.</p>
+        <p className="mt-2">Personvern | Informasjonskapsler | Kontakt | Om oss</p>
       </footer>
     </main>
   );
