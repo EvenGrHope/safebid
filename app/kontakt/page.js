@@ -38,7 +38,7 @@ export default function ContactPage() {
               {
                 ikon: <Mail className="text-blue-700" size={28} />,
                 tittel: "E-post",
-                tekst: "post@safebid.no",
+                tekst: "post@bytteklar.no",
               },
               {
                 ikon: <Phone className="text-blue-700" size={28} />,
