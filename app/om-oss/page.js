@@ -17,7 +17,7 @@ export default function AboutPage() {
 
         <div className="relative max-w-4xl mx-auto text-center px-6">
           <h1 className="text-5xl font-bold mb-6 text-gray-900">
-            Om <span className="text-blue-700">Safebid</span>
+            Om <span className="text-blue-700">BytteKlar</span>
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
             Safebid er en norsk anbudstjeneste som gjør det enkelt å sammenligne
@@ -77,7 +77,7 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Hvem vi er</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-10">
-            Safebid er utviklet av mennesker med bakgrunn fra både økonomi,
+            Bytteklar er utviklet av mennesker med bakgrunn fra både økonomi,
             forsikring og teknologi. Vi ønsker å gi kundene makten tilbake – og
             gjøre forsikring enklere, mer transparent og konkurransedyktig.
           </p>
@@ -106,7 +106,7 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer className="py-10 text-center text-gray-500 text-sm bg-gray-50 border-t">
-        <p>© {new Date().getFullYear()} Safebid. Alle rettigheter forbeholdt.</p>
+        <p>© {new Date().getFullYear()} Bytteklar. Alle rettigheter forbeholdt.</p>
       </footer>
     </main>
   );
