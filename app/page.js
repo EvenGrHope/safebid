@@ -144,20 +144,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Samarbeid */}
-      <section className="py-12 bg-white border-t border-gray-200">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-gray-600 text-sm mb-4">
-            Samarbeid med autoriserte rådgivere fra ledende forsikringsselskaper:
-          </p>
-          <div className="flex flex-wrap justify-center gap-8 grayscale opacity-80">
-            <img src="/tryg-logo.png" alt="Tryg" className="h-10" />
-            <img src="/storebrand-logo.png" alt="Storebrand" className="h-10" />
-            <img src="/gjensidige-logo.png" alt="Gjensidige" className="h-10" />
-          </div>
-        </div>
-      </section>
-
       {/* Guider */}
       <section className="py-24 bg-white border-t border-gray-100">
         <div className="max-w-6xl mx-auto px-6 text-center">
@@ -246,8 +232,8 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-10 text-center text-gray-500 text-sm bg-gray-50 border-t">
-        <p>© {new Date().getFullYear()} Bytteklar. Alle rettigheter forbeholdt.</p>
-        <p className="mt-2">Personvern | Kontakt | Om oss</p>
+        <p>© {new Date().getFullYear()} Bytteklar.no. Alle rettigheter forbeholdt.</p>
+        <p className="mt-2">Personvern | Informasjonskapsler | Kontakt | Om oss</p>
       </footer>
     </main>
   );
