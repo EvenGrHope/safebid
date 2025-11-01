@@ -1,0 +1,24 @@
+[
+  {
+    "tidspunkt": "2025-11-01T13:13:51.518Z",
+    "kunde": {
+      "navn": "Even",
+      "epost": "Evengrhope@outlook.com",
+      "selskap": "Storebrand"
+    },
+    "sendtTil": [
+      {
+        "selskap": "IF",
+        "epost": "evengrhope@outlook.com"
+      },
+      {
+        "selskap": "Gjensidige",
+        "epost": "even@igniteuit.no"
+      },
+      {
+        "selskap": "Tryg",
+        "epost": "egr085@uit.no"
+      }
+    ]
+  }
+]

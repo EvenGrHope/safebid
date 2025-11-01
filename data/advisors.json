@@ -1,0 +1,30 @@
+[
+  {
+    "id": "SB001",
+    "navn": "Even Grønbech-Hope",
+    "selskap": "Storebrand",
+    "epost": "even.gronbech-hope@storebrand.no",
+    "telefon": "99999999"
+  },
+  {
+    "id": "IF001",
+    "navn": "Ola Nordmann",
+    "selskap": "IF",
+    "epost": "evengrhope@outlook.com",
+    "telefon": "98888888"
+  },
+  {
+    "id": "GJ001",
+    "navn": "Kari Hansen",
+    "selskap": "Gjensidige",
+    "epost": "even@igniteuit.no",
+    "telefon": "97777777"
+  },
+  {
+    "id": "TR001",
+    "navn": "Per Johansen",
+    "selskap": "Tryg",
+    "epost": "egr085@uit.no",
+    "telefon": "96666666"
+  }
+]
