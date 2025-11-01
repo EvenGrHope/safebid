@@ -1869,19 +1869,22 @@ function Oppsummering({ data, onSubmit, onBack }) {
   );
 }
 
+import { Suspense } from "react";
+
 /* === 2. Hovedkomponent === */
 
-export default function SkjemaPage() {
+// Flytt hele den tidligere funksjonen inn i SkjemaContent
+function SkjemaContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const productParam = searchParams.get("produkter") || "";
   const productEntries = productParam
-  .split(",")
-  .map((p) => {
-  const [key, ...rest] = p.split("=");
-  return [decodeURIComponent(key), rest.join("=")];
-  })
-  .map(([key, val]) => [decodeURIComponent(key), val]);
+    .split(",")
+    .map((p) => {
+      const [key, ...rest] = p.split("=");
+      return [decodeURIComponent(key), rest.join("=")];
+    })
+    .map(([key, val]) => [decodeURIComponent(key), val]);
 
   const steps = useMemo(() => {
     const s = [];
@@ -1894,8 +1897,7 @@ export default function SkjemaPage() {
         .replace("å", "a");
       const count = parseInt(value) || 1;
       for (let i = 0; i < count; i++) s.push({ type: normalizedKey, index: i });
-  }
-
+    }
     s.push({ type: "kontakt" });
     s.push({ type: "oppsummering" });
     return s;
@@ -1939,10 +1941,15 @@ export default function SkjemaPage() {
       .replace("æ", "a")
       .replace("å", "a");
 
-
     setFormData((prev) => {
       const updated = { ...prev };
-      if (["bil", "innbo", "reise", "hus", "campingvogn", "elsparkesykkel", "mc", "moped", "tilhenger", "traktor", "veteran", "liv", "kritisk", "ufore", "barn", "helse", "ulykke", "bat", "hytte", "verdisak", "dyr"].includes(type)) {
+      if (
+        [
+          "bil", "innbo", "reise", "hus", "campingvogn", "elsparkesykkel", "mc", "moped",
+          "tilhenger", "traktor", "veteran", "liv", "kritisk", "ufore", "barn", "helse",
+          "ulykke", "bat", "hytte", "verdisak", "dyr",
+        ].includes(type)
+      ) {
         const arr = [...(prev[type] || [])];
         arr[index] = data;
         updated[type] = arr;
@@ -1957,23 +1964,22 @@ export default function SkjemaPage() {
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const handleSubmit = async () => {
-  try {
-    const response = await fetch("/api/sendMail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch("/api/sendMail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (!response.ok) throw new Error("Feil ved sending");
+      if (!response.ok) throw new Error("Feil ved sending");
 
-    alert("Skjema sendt til rådgiver!");
-    router.push("/takk-forsikring");
-  } catch (err) {
-    console.error(err);
-    alert("Kunne ikke sende skjema. Prøv igjen senere.");
-  }
+      alert("Skjema sendt til rådgiver!");
+      router.push("/takk-forsikring");
+    } catch (err) {
+      console.error(err);
+      alert("Kunne ikke sende skjema. Prøv igjen senere.");
+    }
   };
-
 
   const getStepData = () => {
     const { type, index } = currentStep;
@@ -1994,155 +2000,42 @@ export default function SkjemaPage() {
           Steg {step + 1} av {steps.length}
         </div>
 
+        {/* --- Her beholdes alle if/else-renderne som før --- */}
         {currentStep.type === "bil" && (
-          <BilForsikring
-            data={getStepData()}
-            index={currentStep.index}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
+          <BilForsikring data={getStepData()} index={currentStep.index} onNext={handleNext} onBack={handleBack} />
         )}
-
-        {currentStep.type === "innbo" && (
-          <InnboForsikring
-            data={getStepData()}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "reise" && (
-          <ReiseForsikring
-            data={getStepData()}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "hus" && (
-          <HusForsikring
-            data={getStepData()}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "campingvogn" && (
-          <CampingvognForsikring
-          data={getStepData()}
-          onNext={handleNext}
-          onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "elsparkesykkel" && (
-          <ElsparkesykkelForsikring
-          data={getStepData()}
-          onNext={handleNext}
-          onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "mc" && (
-          <MCForsikring
-          data={getStepData()}
-          onNext={handleNext}
-          onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "moped" && (
-          <MopedForsikring
-          data={getStepData()}
-          onNext={handleNext}
-          onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "tilhenger" && (
-          <TilhengerForsikring
-          data={getStepData()}
-          onNext={handleNext}
-          onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "traktor" && (
-          <TraktorForsikring
-          data={getStepData()}
-          onNext={handleNext}
-          onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "veteran" && (
-          <VeteranForsikring
-          data={getStepData()}
-          onNext={handleNext}
-          onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "bat" && (
-          <BatForsikring
-            data={getStepData()}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "hytte" && (
-          <HytteForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "verdisak" && (
-          <VerdisakForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "dyr" && (
-          <DyreForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "liv" && (
-          <LivsForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "kritisk" && (
-          <KritiskSykdom data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "ufore" && (
-          <UforeForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "barn" && (
-          <BarneForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "helse" && (
-          <HelseForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "ulykke" && (
-          <UlykkeForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />
-        )}
-
-        {currentStep.type === "kontakt" && (
-          <KontaktInfo
-            data={getStepData()}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        )}
-
-        {currentStep.type === "oppsummering" && (
-          <Oppsummering
-            data={formData}
-            onSubmit={handleSubmit}
-            onBack={handleBack}
-          />
-        )}
+        {currentStep.type === "innbo" && <InnboForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "reise" && <ReiseForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "hus" && <HusForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "campingvogn" && <CampingvognForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "elsparkesykkel" && <ElsparkesykkelForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "mc" && <MCForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "moped" && <MopedForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "tilhenger" && <TilhengerForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "traktor" && <TraktorForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "veteran" && <VeteranForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "bat" && <BatForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "hytte" && <HytteForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "verdisak" && <VerdisakForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "dyr" && <DyreForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "liv" && <LivsForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "kritisk" && <KritiskSykdom data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "ufore" && <UforeForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "barn" && <BarneForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "helse" && <HelseForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "ulykke" && <UlykkeForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "kontakt" && <KontaktInfo data={getStepData()} onNext={handleNext} onBack={handleBack} />}
+        {currentStep.type === "oppsummering" && <Oppsummering data={formData} onSubmit={handleSubmit} onBack={handleBack} />}
       </div>
     </main>
+  );
+}
+
+// ✅ Ny eksport som fikser Vercel-feilen
+export default function SkjemaPage() {
+  return (
+    <Suspense fallback={<div className="text-center text-gray-500 py-10">Laster skjema...</div>}>
+      <SkjemaContent />
+    </Suspense>
   );
 }
