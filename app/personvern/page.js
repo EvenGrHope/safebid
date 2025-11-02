@@ -1,5 +1,3 @@
-import Footer from "./components/Footer";
-
 export const metadata = {
   title: "Personvernerklæring | Bytteklar.no",
   description:
@@ -200,8 +198,6 @@ export default function Personvern() {
           .
         </p>
       </div>
-
-      <Footer />
     </main>
   );
 }
