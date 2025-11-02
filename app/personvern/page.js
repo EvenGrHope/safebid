@@ -1,4 +1,4 @@
-import Footer from "@/app/components/Footer";
+import Footer from "./components/Footer";
 
 export const metadata = {
   title: "Personvernerklæring | Bytteklar.no",
