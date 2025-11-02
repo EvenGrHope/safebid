@@ -1,3 +1,8 @@
+"use client";
+
+import Link from "next/link";
+import React from "react";
+
 export const metadata = {
   title: "Personvernerklæring | Bytteklar.no",
   description: "Les vår personvernerklæring for hvordan vi behandler dine personopplysninger i henhold til GDPR.",
