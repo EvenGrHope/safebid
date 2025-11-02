@@ -1,34 +1,12 @@
-import fs from "fs";
-import path from "path";
 import nodemailer from "nodemailer";
 
-const LOG_PATH = path.join(process.cwd(), "logs", "anbud-logg.json");
-
-// Sørg for at logg-mappen eksisterer
-if (!fs.existsSync(path.join(process.cwd(), "logs"))) {
-  fs.mkdirSync(path.join(process.cwd(), "logs"));
-}
-if (!fs.existsSync(LOG_PATH)) {
-  fs.writeFileSync(LOG_PATH, "[]");
-}
-
-/* === 1. Rådgivere per selskap === */
 const ADVISORS = {
-  Storebrand: [
-    "even.gronbech-hope@storebrand.no",
-  ],
-  IF: [
-    "evengrhope@outlook.com",
-  ],
-  Gjensidige: [
-    "even@igniteuit.no",
-  ],
-  Tryg: [
-    "egr085@uit.no",
-  ],
+  Storebrand: ["even.gronbech-hope@storebrand.no"],
+  IF: ["evengrhope@outlook.com"],
+  Gjensidige: ["even@igniteuit.no"],
+  Tryg: ["egr085@uit.no"],
 };
 
-/* === 2. Enkel rundgangsteller (midlertidig i minnet) === */
 let advisorIndex = {
   Storebrand: 0,
   IF: 0,
@@ -43,16 +21,11 @@ export async function POST(req) {
 
     const customerCompany = kontakt?.selskap?.trim();
     const allCompanies = Object.keys(ADVISORS);
-
-    // 🚫 Fjern kundens nåværende selskap
     const targetCompanies = allCompanies.filter(
       (c) => c.toLowerCase() !== customerCompany?.toLowerCase()
     );
-
-    // 📩 Velg maks 3 selskaper
     const selectedCompanies = targetCompanies.slice(0, 3);
 
-    // 🎯 Velg én rådgiver per selskap i rundgang
     const recipients = selectedCompanies.map((company) => {
       const advisors = ADVISORS[company];
       const index = advisorIndex[company] % advisors.length;
@@ -61,7 +34,6 @@ export async function POST(req) {
       return { company, email: chosen };
     });
 
-    // === Pen HTML som tidligere ===
     const forsikringHTML = Object.entries(forsikringer)
       .filter(([_, arr]) => Array.isArray(arr) && arr.length > 0)
       .map(([type, arr]) => {
@@ -115,7 +87,6 @@ export async function POST(req) {
       </div>
     `;
 
-    /* === 3. Send e-post === */
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -124,41 +95,36 @@ export async function POST(req) {
       },
     });
 
-    for (const { company, email } of recipients) {
+    for (const { email } of recipients) {
       await transporter.sendMail({
         from: `"Safebid.no" <${process.env.MAIL_USER}>`,
         to: email,
-        bcc: "safebid95@gmail.com", // 📋 du får kopi av alle utsendelser
+        bcc: "safebid95@gmail.com",
         subject: `Ny kundeforespørsel via Safebid – ${kontakt?.navn || "Ukjent kunde"}`,
         html: htmlBody,
       });
       console.log(`✅ E-post sendt til ${email}`);
     }
 
-    /* === 4. Loggfør anbudet === */
-    const logEntry = {
+    // 📘 Logg i konsollen i stedet for å skrive til fil
+    console.log("📘 Anbud loggført:", {
       tidspunkt: new Date().toISOString(),
-      kunde: {
-        navn: kontakt?.navn || "-",
-        epost: kontakt?.epost || "-",
-        selskap: kontakt?.selskap || "-",
-      },
-      sendtTil: recipients.map((r) => ({
-        selskap: r.company,
-        epost: r.email,
-      })),
-    };
+      kunde: kontakt,
+      sendtTil: recipients,
+    });
 
-    const logData = JSON.parse(fs.readFileSync(LOG_PATH, "utf8"));
-    logData.push(logEntry);
-    fs.writeFileSync(LOG_PATH, JSON.stringify(logData, null, 2));
-
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("❌ FULL E-POSTFEIL:", error);
     return new Response(
       JSON.stringify({ success: false, error: error.stack || error.message }),
-      { status: 500 }
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
     );
   }
 }
