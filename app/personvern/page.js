@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Personvernerklæring | Forsikro.no",
+  title: "Personvernerklæring | Bytteklar.no",
   description: "Les vår personvernerklæring for hvordan vi behandler dine personopplysninger i henhold til GDPR.",
 };
 
@@ -10,40 +10,40 @@ export default function Personvern() {
 
       <h2 className="text-2xl font-semibold mt-8 mb-2">1. Behandling av personopplysninger</h2>
       <p>
-        Pionernett AS, selskapet bak Forsikro.no, er en leverandør av digitale løsninger som formidler forsikringsleads.
+        Selskapsnavn AS er en leverandør av digitale løsninger som formidler forsikringsleads.
         Vi samler inn og bruker data som kan knyttes til våre brukere, også kjent som personopplysninger.
       </p>
 
       <h3 className="text-xl font-semibold mt-6 mb-2">Behandlingsansvarlig</h3>
       <p>
-        Behandlingsansvarlig for personopplysninger som omtales i denne erklæringen er Pionernett AS. Vi følger strenge regler om databeskyttelse,
+        Behandlingsansvarlig for personopplysninger som omtales i denne erklæringen er Selskapsnavn AS. Vi følger strenge regler om databeskyttelse,
         i samsvar med personvernforordningen (General Data Protection Regulation, GDPR).
       </p>
 
       <p className="mt-4">
         Har du spørsmål om vår behandling av dine opplysninger:
         <br />
-        <strong>Pionernett AS</strong>
+        <strong>Selskapsnavn AS</strong>
         <br />
-        Organisasjonsnummer: 931670212
+        Organisasjonsnummer: xxx xxx xxx
         <br />
-        Workinntoppen 22, 9016 Tromsø
+        Adresse xx, xxxx Poststed
         <br />
         <a href="mailto:kontakt@pionernett.no" className="text-blue-600 hover:underline">
-          kontakt@pionernett.no
+          post@bytteklar.no
         </a>
       </p>
 
       <h3 className="text-xl font-semibold mt-8 mb-2">1.2 Hva er personopplysninger?</h3>
       <p>
         Personopplysninger er informasjon som kan knyttes til en person, for eksempel navn, bosted, telefonnummer, e-postadresse og IP-adresse.
-        Opplysninger om hvordan du bruker forsikro.no, for eksempel hvilke sider du har sett på, regnes også som personopplysninger.
+        Opplysninger om hvordan du bruker bytteklar.no, for eksempel hvilke sider du har sett på, regnes også som personopplysninger.
       </p>
       <p className="mt-4">
-        Pionernett AS er ansvarlig for håndteringen av personopplysninger som samles inn ved bruk av våre tjenester. forsikro.no følger personopplysningsloven i behandlingen av personopplysninger.
+        Selskapsnavn AS er ansvarlig for håndteringen av personopplysninger som samles inn ved bruk av våre tjenester. Bytteklar.no følger personopplysningsloven i behandlingen av personopplysninger.
       </p>
 
-      <h2 className="text-2xl font-semibold mt-8 mb-2">2. Persondata som blir behandlet på forsikro.no</h2>
+      <h2 className="text-2xl font-semibold mt-8 mb-2">2. Persondata som blir behandlet på bytteklar.no</h2>
       <p>
         Personopplysningene du gir til oss er det grunnlaget som forsikringsformidlere trenger for å kunne tilby deg skreddersydde og relevante tilbud.
         Disse opplysningene brukes utelukkende for å formidle disse tilbudene til deg, og for å håndtere det administrative arbeidet som er nødvendig for å levere tjenestene.
@@ -62,11 +62,11 @@ export default function Personvern() {
       <h3 className="text-xl font-semibold mt-6 mb-2">2.1 Behandlingsgrunnlaget for dine personopplysninger</h3>
       <p>
         Rettsgrunnlaget for behandlingen av dine personopplysninger er i samsvar med personvernforordningen artikkel 6, avsnitt 1.
-        Behandlingen er nødvendig for å kunne levere gode og personaliserte tilbud til brukerne av forsikro.no. Det foreligger dermed legitime interesser.
+        Behandlingen er nødvendig for å kunne levere gode og personaliserte tilbud til brukerne av bytteklar.no. Det foreligger dermed legitime interesser.
       </p>
 
       <h3 className="text-xl font-semibold mt-6 mb-2">2.2 Personopplysninger som behandles</h3>
-      <p>Pionernett AS håndterer personopplysninger som navn, telefonnummer, adresse og e-post.</p>
+      <p>Selskapsnavn AS håndterer personopplysninger som navn, telefonnummer, adresse og e-post.</p>
 
       <h3 className="text-xl font-semibold mt-6 mb-2">2.3 Hvor lenge lagres informasjonen</h3>
       <p>
@@ -120,7 +120,7 @@ export default function Personvern() {
 
       <h2 className="text-2xl font-semibold mt-8 mb-2">6. Klage til Datatilsynet</h2>
       <p>
-        Hvis du har spørsmål om Pionernett AS’ behandling av data eller ønsker å klage, kontakt oss via e-post. Om du fortsatt ikke er fornøyd, kan du sende en klage til Datatilsynet.
+        Hvis du har spørsmål om Selskapsnavn AS behandling av data eller ønsker å klage, kontakt oss via e-post. Om du fortsatt ikke er fornøyd, kan du sende en klage til Datatilsynet.
         Mer informasjon finner du på{" "}
         <a href="https://www.datatilsynet.no" target="_blank" className="text-blue-600 hover:underline">
           datatilsynet.no
