@@ -58,7 +58,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
               setLocalData({ ...localData, kjorelengde: e.target.value })
             }
           >
-            <option value="">Velg kjørelengde</option>
+            <option value="">-</option>
             <option value="5000">5 000 km</option>
             <option value="8000">8 000 km</option>
             <option value="12000">12 000 km</option>
@@ -79,7 +79,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
               setLocalData({ ...localData, bonus: e.target.value })
             }
           >
-            <option value="">Velg bonusnivå</option>
+            <option value="">-</option>
             <option value="mindre enn 60%">Mindre enn 60%</option>
             <option value="60%">60% (startbonus)</option>
             <option value="70%">70%</option>
@@ -97,7 +97,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
               setLocalData({ ...localData, dekning: e.target.value })
             }
           >
-            <option value="">Velg dekning</option>
+            <option value="">-</option>
             <option value="ansvar">Ansvar</option>
             <option value="delkasko">Delkasko</option>
             <option value="kasko">Kasko</option>
@@ -137,7 +137,7 @@ function InnboForsikring({ data, onNext, onBack }) {
         <label className="block mb-2 font-medium text-gray-800">Adresse <span className="text-red-500">*</span></label>
         <input
           type="text"
-          placeholder="f.eks. Parkveien 12, Tromsø"
+          placeholder="F.eks. Parkveien 12, 0350 Oslo"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.adresse || ""}
           onChange={(e) => setLocalData({ ...localData, adresse: e.target.value })}
@@ -146,7 +146,7 @@ function InnboForsikring({ data, onNext, onBack }) {
         <label className="block mb-2 font-medium text-gray-800">Forsikringssum <span className="text-red-500">*</span></label>
         <input
           type="number"
-          placeholder="f.eks. 1 000 000"
+          placeholder="F.eks. 1 000 000 kr"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.forsikringssum || ""}
           onChange={(e) => setLocalData({ ...localData, forsikringssum: e.target.value })}
@@ -218,22 +218,24 @@ function ReiseForsikring({ data, onNext, onBack }) {
     <div className="space-y-8">
       <h2 className="text-2xl font-bold text-blue-700 text-center">Reiseforsikring</h2>
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        <label className="block mb-2 font-medium text-gray-800">Hvem skal forsikres <span className="text-red-500">*</span></label>
         <select
           className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
           value={localData.hvem || ""}
           onChange={(e) => setLocalData({ ...localData, hvem: e.target.value })}
         >
-          <option value="">Hvem skal forsikres</option>
+          <option value="">-</option>
           <option value="enkeltperson">Enkelperson</option>
           <option value="familie">Familie</option>
         </select>
 
+        <label className="block mb-2 font-medium text-gray-800">Ønsket dekning <span className="text-red-500">*</span></label>
         <select
           className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
           value={localData.dekning || ""}
           onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
         >
-          <option value="">Velg dekning</option>
+          <option value="">-</option>
           <option value="standard">Standard</option>
           <option value="super">Super</option>
         </select>
