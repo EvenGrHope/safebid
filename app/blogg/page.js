@@ -41,7 +41,7 @@ export default function BlogPage() {
 
         <div className="relative max-w-4xl mx-auto text-center px-6">
           <h1 className="text-5xl font-bold mb-6 text-gray-900">
-            Forsikrings<span className="text-blue-700">bloggen</span>
+            Forsikrings<span className="text-blue-700">guiden</span>
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
             Les våre guider, tips og artikler om hvordan du får mest mulig igjen
@@ -156,7 +156,7 @@ export default function BlogPage() {
           </Link>
         </div>
       </section>
-      
+
     </main>
   );
 }
