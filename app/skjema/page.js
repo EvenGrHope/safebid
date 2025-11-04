@@ -34,7 +34,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
 
       <div className="bg-gray-50 p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
         <div>
-          <label className="block mb-2 font-medium text-gray-800">Registreringsnummer<span className="text-red-500">*</span></label>
+          <label className="block mb-2 font-medium text-gray-800">Registreringsnummer <span className="text-red-500">*</span></label>
           <input
             type="text"
             placeholder="F.eks. AB12345"
@@ -50,7 +50,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
         </div>
 
         <div>
-          <label className="block mb-2 font-medium text-gray-800">Årlig kjørelengde (km)</label>
+          <label className="block mb-2 font-medium text-gray-800">Årlig kjørelengde <span className="text-red-500">*</span></label>
           <select
             className="w-full border rounded-lg px-4 py-3 border-gray-300 focus:ring-2 focus:ring-blue-600"
             value={localData.kjorelengde || ""}
@@ -71,7 +71,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
         </div>
 
         <div>
-          <label className="block mb-2 font-medium text-gray-800">Bonus</label>
+          <label className="block mb-2 font-medium text-gray-800">Bonus <span className="text-red-500">*</span></label>
           <select
             className="w-full border rounded-lg px-4 py-3 border-gray-300 focus:ring-2 focus:ring-blue-600"
             value={localData.bonus || ""}
@@ -89,7 +89,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
         </div>
 
         <div>
-          <label className="block mb-2 font-medium text-gray-800">Ønsket dekning</label>
+          <label className="block mb-2 font-medium text-gray-800">Ønsket dekning <span className="text-red-500">*</span></label>
           <select
             className="w-full border rounded-lg px-4 py-3 border-gray-300 focus:ring-2 focus:ring-blue-600"
             value={localData.dekning || ""}
@@ -134,22 +134,25 @@ function InnboForsikring({ data, onNext, onBack }) {
     <div className="space-y-8">
       <h2 className="text-2xl font-bold text-blue-700 text-center">Innboforsikring</h2>
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        <label className="block mb-2 font-medium text-gray-800">Adresse <span className="text-red-500">*</span></label>
         <input
           type="text"
-          placeholder="Adresse (f.eks. Parkveien 12, Tromsø)"
+          placeholder="f.eks. Parkveien 12, Tromsø"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.adresse || ""}
           onChange={(e) => setLocalData({ ...localData, adresse: e.target.value })}
         />
 
+        <label className="block mb-2 font-medium text-gray-800">Forsikringssum <span className="text-red-500">*</span></label>
         <input
           type="number"
-          placeholder="Forsikringssum (f.eks. 800000)"
+          placeholder="f.eks. 1 000 000"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.forsikringssum || ""}
           onChange={(e) => setLocalData({ ...localData, forsikringssum: e.target.value })}
         />
 
+        <label className="block mb-2 font-medium text-gray-800">Ønsket dekning <span className="text-red-500">*</span></label>
         <select
           className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
           value={localData.dekning || ""}
@@ -159,7 +162,8 @@ function InnboForsikring({ data, onNext, onBack }) {
           <option value="standard">Standard</option>
           <option value="super">Super</option>
         </select>
-
+        
+        <label className="block mb-2 font-medium text-gray-800">Sikkerhetstiltak</label>
         <div className="flex flex-col gap-2 text-gray-700">
           <label className="flex items-center gap-2">
             <input
