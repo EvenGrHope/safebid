@@ -103,12 +103,7 @@ export default function AboutPage() {
           </Link>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-10 text-center text-gray-500 text-sm bg-gray-50 border-t">
-        <p>© {new Date().getFullYear()} Bytteklar.no. Alle rettigheter forbeholdt.</p>
-        <p className="mt-2">Personvern | Informasjonskapsler | Kontakt | Om oss</p>
-      </footer>
+      
     </main>
   );
 }
