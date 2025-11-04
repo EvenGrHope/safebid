@@ -233,7 +233,7 @@ function InnboForsikring({ data, onNext, onBack }) {
               setLocalData({ ...localData, dekning: e.target.value })
             }
           >
-            <option value="">Velg dekning</option>
+            <option value="">-</option>
             <option value="standard">Standard</option>
             <option value="super">Super</option>
           </select>
