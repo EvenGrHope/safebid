@@ -1612,6 +1612,12 @@ function KontaktInfo({ data, onNext, onBack }) {
 
 // --- Oppsummering ---
 function Oppsummering({ data, onSubmit, onBack }) {
+  const [notat, setNotat] = useState(data.notat || "");
+
+  const handleSend = () => {
+    onSubmit({...data, notat});
+  };
+
   return (
     <div className="space-y-8">
       <h2 className="text-2xl font-bold text-blue-700 text-center">Oppsummering</h2>
@@ -1855,6 +1861,19 @@ function Oppsummering({ data, onSubmit, onBack }) {
             <p>Telefon: {data.kontakt.telefon}</p>
           </div>
         </div>
+
+      <div>
+          <label className="block text-gray-700 font-medium mb-2">
+            Notat til rådgiver (valgfritt)
+          </label>
+          <textarea
+            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+            rows="4"
+            placeholder="F.eks. 'Jeg ønsker å bli kontaktet etter kl. 16' eller 'Har allerede bilforsikring i IF'"
+            value={notat}
+            onChange={(e) => setNotat(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="flex justify-between mt-8">
@@ -1963,12 +1982,12 @@ function SkjemaContent() {
 
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (sendData) => {
     try {
       const response = await fetch("/api/sendMail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(sendData),
       });
 
       if (!response.ok) throw new Error("Feil ved sending");
