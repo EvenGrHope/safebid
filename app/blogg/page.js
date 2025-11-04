@@ -91,53 +91,7 @@ export default function BlogPage() {
           </div>
         </div>
       </section>
-
-      {/* Kategorier / Guider */}
-      <section className="py-20 bg-white border-t border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-6 text-gray-900">
-            Utforsk temaer
-          </h2>
-          <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-            Dykk dypere inn i temaene som interesserer deg mest.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-10">
-            {[
-              {
-                ikon: <BookOpen className="text-blue-700" size={32} />,
-                tittel: "Guider",
-                tekst:
-                  "Trinn-for-trinn veiledninger som hjelper deg å forstå dekninger, vilkår og valg av forsikring.",
-              },
-              {
-                ikon: <PenLine className="text-blue-700" size={32} />,
-                tittel: "Eksperttips",
-                tekst:
-                  "Praktiske råd og økonomiske vurderinger fra forsikringsrådgivere og analytikere.",
-              },
-              {
-                ikon: <Newspaper className="text-blue-700" size={32} />,
-                tittel: "Nyheter",
-                tekst:
-                  "Hold deg oppdatert på endringer i markedet, lover og regler som påvirker forsikring.",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="bg-gray-50 rounded-2xl shadow-sm hover:shadow-md transition p-10 text-center"
-              >
-                <div className="flex justify-center mb-5">{item.ikon}</div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-900">
-                  {item.tittel}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">{item.tekst}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* CTA */}
       <section className="py-20 bg-blue-700 text-white text-center">
         <div className="max-w-4xl mx-auto px-6">
