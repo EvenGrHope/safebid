@@ -120,7 +120,12 @@ function BilForsikring({ data, onNext, onBack, index }) {
 
 // --- InnboForsikring ---
 function InnboForsikring({ data, onNext, onBack }) {
-  const [localData, setLocalData] = useState(data);
+  const [localData, setLocalData] = useState({
+    ...data,
+    forsikringssumDisplay: data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : "",
+  });
 
   const handleNext = () => {
     if (!localData.adresse || !localData.forsikringssum || !localData.dekning) {
@@ -132,75 +137,141 @@ function InnboForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Innboforsikring</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Innboforsikring
+      </h2>
+
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        <label className="block mb-2 font-medium text-gray-800">Adresse <span className="text-red-500">*</span></label>
-        <input
-          type="text"
-          placeholder="F.eks. Parkveien 12, 0350 Oslo"
-          className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-          value={localData.adresse || ""}
-          onChange={(e) => setLocalData({ ...localData, adresse: e.target.value })}
-        />
-
-        <label className="block mb-2 font-medium text-gray-800">Forsikringssum <span className="text-red-500">*</span></label>
-        <input
-          type="number"
-          placeholder="F.eks. 1 000 000 kr"
-          className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-          value={localData.forsikringssum || ""}
-          onChange={(e) => setLocalData({ ...localData, forsikringssum: e.target.value })}
-        />
-
-        <label className="block mb-2 font-medium text-gray-800">Ønsket dekning <span className="text-red-500">*</span></label>
-        <select
-          className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
-          value={localData.dekning || ""}
-          onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
-        >
-          <option value="">-</option>
-          <option value="standard">Standard</option>
-          <option value="super">Super</option>
-        </select>
-        
-        <label className="block mb-2 font-medium text-gray-800">Sikkerhetstiltak</label>
-        <div className="flex flex-col gap-2 text-gray-700">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              className="w-5 h-5 accent-blue-600"
-              checked={localData.brannalarm || false}
-              onChange={(e) =>
-                setLocalData({ ...localData, brannalarm: e.target.checked })
-              }
-            />
-            Brannalarm
+        {/* Adresse */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Adresse <span className="text-red-500">*</span>
           </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              className="w-5 h-5 accent-blue-600"
-              checked={localData.innbruddsalarm || false}
-              onChange={(e) =>
-                setLocalData({ ...localData, innbruddsalarm: e.target.checked })
-              }
-            />
-            Innbruddsalarm
+          <input
+            type="text"
+            placeholder="F.eks. Parkveien 12, 0350 Oslo"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.adresse || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, adresse: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Forsikringssum */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Forsikringssum <span className="text-red-500">*</span>
           </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="F.eks. 1 000 000 kr"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.forsikringssumDisplay || ""}
+            onChange={(e) => {
+              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+              setLocalData({
+                ...localData,
+                forsikringssum: digitsOnly,
+                forsikringssumDisplay: digitsOnly
+                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
+                  : "",
+              });
+            }}
+            onFocus={(e) => {
+              if (localData.forsikringssum) {
+                e.target.value = localData.forsikringssum;
+              }
+            }}
+            onBlur={() => {
+              if (localData.forsikringssum) {
+                setLocalData({
+                  ...localData,
+                  forsikringssumDisplay:
+                    Number(localData.forsikringssum).toLocaleString("no-NO") +
+                    " kr",
+                });
+              }
+            }}
+          />
+        </div>
+
+        {/* Dekning */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket dekning <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.dekning || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, dekning: e.target.value })
+            }
+          >
+            <option value="">Velg dekning</option>
+            <option value="standard">Standard</option>
+            <option value="super">Super</option>
+          </select>
+        </div>
+
+        {/* Sikkerhetstiltak */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Sikkerhetstiltak
+          </label>
+          <div className="flex flex-col gap-2 text-gray-700">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="w-5 h-5 accent-blue-600"
+                checked={localData.brannalarm || false}
+                onChange={(e) =>
+                  setLocalData({
+                    ...localData,
+                    brannalarm: e.target.checked,
+                  })
+                }
+              />
+              Brannalarm
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="w-5 h-5 accent-blue-600"
+                checked={localData.innbruddsalarm || false}
+                onChange={(e) =>
+                  setLocalData({
+                    ...localData,
+                    innbruddsalarm: e.target.checked,
+                  })
+                }
+              />
+              Innbruddsalarm
+            </label>
+          </div>
         </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300">
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
           Tilbake
         </button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
           Neste
         </button>
       </div>
     </div>
   );
 }
+
 
 // --- ReiseForsikring ---
 function ReiseForsikring({ data, onNext, onBack }) {
