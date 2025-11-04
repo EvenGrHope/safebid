@@ -295,39 +295,43 @@ function HusForsikring({ data, onNext, onBack }) {
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
         {/* Adresse */}
+        <label className="block mb-2 font-medium text-gray-800">Adresse <span className="text-red-500">*</span></label>
         <input
           type="text"
-          placeholder="Adresse (f.eks. Storgata 10, Tromsø)"
+          placeholder="F.eks. Storgata 10, 0350 Oslo"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.adresse}
           onChange={(e) => setLocalData({ ...localData, adresse: e.target.value })}
         />
 
         {/* Byggeår */}
+        <label className="block mb-2 font-medium text-gray-800">Byggeår <span className="text-red-500">*</span></label>
         <input
           type="number"
-          placeholder="Byggeår (f.eks. 1985)"
+          placeholder="F.eks. 1985"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.byggeår}
           onChange={(e) => setLocalData({ ...localData, byggeår: e.target.value })}
         />
 
         {/* Bruksareal */}
+        <label className="block mb-2 font-medium text-gray-800">Bruksareal (BRA) <span className="text-red-500">*</span></label>
         <input
           type="number"
-          placeholder="Bruksareal i kvm (f.eks. 180)"
+          placeholder="F.eks. 180 kvm)"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.bruksareal}
           onChange={(e) => setLocalData({ ...localData, bruksareal: e.target.value })}
         />
 
         {/* Utleie */}
+        <label className="block mb-2 font-medium text-gray-800">Har bolig utleie? </label>
         <select
           className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
           value={localData.utleie}
           onChange={(e) => setLocalData({ ...localData, utleie: e.target.value })}
         >
-          <option value="">Har boligen utleie?</option>
+          <option value="">-</option>
           <option value="nei">Nei</option>
           <option value="delvis">Delvis</option>
           <option value="ja">Ja</option>
@@ -379,20 +383,6 @@ function HusForsikring({ data, onNext, onBack }) {
                   key={i} 
                   className="bg-white p-4 rounded-lg border border-gray-300 shadow-sm space-y-3"
                 >
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (window.confirm("Er du sikker på at du vil fjerne dette bygget?")) {
-                          const newList = localData.tilleggsbygg.filter((_, idx) => idx !== i);
-                          setLocalData({ ...localData, tilleggsbygg: newList});
-                        }
-                      }}
-                      className="border border-red-300 text-red-700 bg-red-50 hover:bg-red-100 hover:border-red-400 font-medium text-sm px-4 py-1.5 rounded-lg transition-all duration-200"
-                    >
-                      X Fjern bygg
-                    </button>
-                  </div>    
 
                   <input
                     type="number"
@@ -427,6 +417,21 @@ function HusForsikring({ data, onNext, onBack }) {
                       setLocalData({ ...localData, tilleggsbygg: newList });
                     }}
                   />
+
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.confirm("Er du sikker på at du vil fjerne dette bygget?")) {
+                          const newList = localData.tilleggsbygg.filter((_, idx) => idx !== i);
+                          setLocalData({ ...localData, tilleggsbygg: newList});
+                        }
+                      }}
+                      className="border border-red-300 text-red-700 bg-red-50 hover:bg-red-100 hover:border-red-400 font-medium text-sm px-4 py-1.5 rounded-lg transition-all duration-200"
+                    >
+                      X Fjern bygg
+                    </button>
+                  </div>    
                 </div>
               ))}
 
@@ -441,12 +446,13 @@ function HusForsikring({ data, onNext, onBack }) {
         </div>
 
         {/* Dekning */}
+        <label className="block mb-2 font-medium text-gray-800">Ønsket dekning <span className="text-red-500">*</span></label>
         <select
           className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
           value={localData.dekning}
           onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
         >
-          <option value="">Velg dekning</option>
+          <option value="">-</option>
           <option value="standard">Standard</option>
           <option value="super">Super</option>
         </select>
