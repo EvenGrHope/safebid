@@ -17,7 +17,7 @@ let advisorIndex = {
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { kontakt, notat, ...forsikringer } = body; // 🔹 inkludert notat her
+    const { kontakt, ...forsikringer } = body;
 
     const customerCompany = kontakt?.selskap?.trim();
     const allCompanies = Object.keys(ADVISORS);
@@ -34,7 +34,6 @@ export async function POST(req) {
       return { company, email: chosen };
     });
 
-    // --- Generer HTML for alle forsikringer ---
     const forsikringHTML = Object.entries(forsikringer)
       .filter(([_, arr]) => Array.isArray(arr) && arr.length > 0)
       .map(([type, arr]) => {
@@ -60,7 +59,6 @@ export async function POST(req) {
       })
       .join("");
 
-    // --- ✉️ E-postinnhold ---
     const htmlBody = `
       <div style="font-family:Arial, sans-serif; color:#111827; background-color:#ffffff; padding:24px; border-radius:12px; max-width:600px; margin:auto; border:1px solid #e5e7eb;">
         <h2 style="color:#1e3a8a; text-align:center;">Ny kundeforespørsel via Safebid</h2>
@@ -72,16 +70,6 @@ export async function POST(req) {
           <p><strong>Telefon:</strong> ${kontakt?.telefon || "-"}</p>
           <p><strong>Nåværende selskap:</strong> ${kontakt?.selskap || "-"}</p>
         </div>
-
-        ${
-          notat
-            ? `
-        <div style="margin-top:20px; background:#f0f9ff; border-left:4px solid #3b82f6; padding:12px 16px; border-radius:8px;">
-          <h3 style="color:#1e40af; margin-bottom:8px;">Kundens notat til rådgiver</h3>
-          <p style="white-space:pre-wrap; font-style:italic; color:#1f2937;">${notat}</p>
-        </div>`
-            : ""
-        }
 
         <hr style="margin:20px 0; border:0; border-top:1px solid #e5e7eb;" />
 
@@ -99,7 +87,6 @@ export async function POST(req) {
       </div>
     `;
 
-    // --- Transport og utsending ---
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -119,11 +106,11 @@ export async function POST(req) {
       console.log(`✅ E-post sendt til ${email}`);
     }
 
+    // 📘 Logg i konsollen i stedet for å skrive til fil
     console.log("📘 Anbud loggført:", {
       tidspunkt: new Date().toISOString(),
       kunde: kontakt,
       sendtTil: recipients,
-      notat, // 🔹 logg notatet
     });
 
     return new Response(JSON.stringify({ success: true }), {
