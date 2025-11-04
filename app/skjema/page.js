@@ -154,7 +154,7 @@ function InnboForsikring({ data, onNext, onBack }) {
           </label>
           <input
             type="text"
-            placeholder="F.eks. Parkveien 12, Oslo"
+            placeholder="F.eks. Adressegata 10"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.adresse || ""}
             onChange={(e) =>
@@ -172,7 +172,7 @@ function InnboForsikring({ data, onNext, onBack }) {
             type="text"
             inputMode="numeric"
             maxLength={4}
-            placeholder="F.eks. 0350"
+            placeholder="F.eks. 3050"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.postnummer || ""}
             onChange={(e) => {
