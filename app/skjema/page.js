@@ -128,7 +128,12 @@ function InnboForsikring({ data, onNext, onBack }) {
   });
 
   const handleNext = () => {
-    if (!localData.adresse || !localData.forsikringssum || !localData.dekning) {
+    if (
+      !localData.adresse ||
+      !localData.postnummer ||
+      !localData.forsikringssum ||
+      !localData.dekning
+    ) {
       alert("Vennligst fyll ut alle felt før du går videre.");
       return;
     }
@@ -149,12 +154,31 @@ function InnboForsikring({ data, onNext, onBack }) {
           </label>
           <input
             type="text"
-            placeholder="F.eks. Parkveien 12, 0350 Oslo"
+            placeholder="F.eks. Parkveien 12, Oslo"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.adresse || ""}
             onChange={(e) =>
               setLocalData({ ...localData, adresse: e.target.value })
             }
+          />
+        </div>
+
+        {/* Postnummer */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Postnummer <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            maxLength={4}
+            placeholder="F.eks. 0350"
+            className="w-32 border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.postnummer || ""}
+            onChange={(e) => {
+              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+              setLocalData({ ...localData, postnummer: digitsOnly });
+            }}
           />
         </div>
 
