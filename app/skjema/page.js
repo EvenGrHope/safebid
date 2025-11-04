@@ -1744,7 +1744,13 @@ function Oppsummering({ data, onSubmit, onBack }) {
             {data.innbo.map((i, idx) => (
               <div key={idx} className="p-3 bg-white rounded-xl border mb-2">
                 <p>Adresse: {i.adresse}</p>
-                <p>Forsikringssum: {i.forsikringssum} kr</p>
+                {i.postnummer && <p>Postnummer: {i.postnummer}</p>}
+                <p>
+                  Forsikringssum:{" "}
+                  {i.forsikringssum
+                    ? Number(i.forsikringssum).toLocaleString("no-NO") + " kr"
+                    : "-"}
+                </p>
                 <p>Dekning: {i.dekning}</p>
                 <p>Brannalarm: {i.brannalarm ? "Ja" : "Nei"}</p>
                 <p>Innbruddsalarm: {i.innbruddsalarm ? "Ja" : "Nei"}</p>
