@@ -146,18 +146,10 @@ function InnboForsikring({ data, onNext, onBack }) {
         <label className="block mb-2 font-medium text-gray-800">Forsikringssum <span className="text-red-500">*</span></label>
         <input
           type="number"
-          inputMode="numeric"
           placeholder="F.eks. 1 000 000 kr"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-          value={localData.forsikringssum
-            ? Number(localData.forsikringssum).toLocaleString("no-NO") + " kr"
-            : ""
-          }
-          onChange={(e) => {const numericValue = e.target.value
-            .replace(/\s/g, "")
-            .replace(/[^\d]/g, "");
-            setLocalData({ ...localData, forsikringssum: numericValue });
-          }}
+          value={localData.forsikringssum || ""}
+          onChange={(e) => setLocalData({ ...localData, forsikringssum: e.target.value })}
         />
 
         <label className="block mb-2 font-medium text-gray-800">Ønsket dekning <span className="text-red-500">*</span></label>
