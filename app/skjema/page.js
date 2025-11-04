@@ -34,7 +34,7 @@ function BilForsikring({ data, onNext, onBack, index }) {
 
       <div className="bg-gray-50 p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
         <div>
-          <label className="block mb-2 font-medium text-gray-800">Registreringsnummer</label>
+          <label className="block mb-2 font-medium text-gray-800">Registreringsnummer<span className="text-red-500">*</span></label>
           <input
             type="text"
             placeholder="F.eks. AB12345"
