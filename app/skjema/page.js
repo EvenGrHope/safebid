@@ -1070,8 +1070,6 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
       !localData.merke ||
       !localData.modell ||
       !localData.arsmodell ||
-      !localData.understellnummer ||
-      !localData.forsikringssum ||
       !localData.dekning
     ) {
       alert("Vennligst fyll ut alle påkrevde felt før du går videre.");
