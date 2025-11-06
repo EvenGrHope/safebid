@@ -1148,8 +1148,7 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
             onChange={(e) =>
               setLocalData({
                 ...localData,
-                understellnummer: e.target.value.toUpperCase(),
-              })
+                understellnummer: e.target.value.})
             }
           />
         </div>
