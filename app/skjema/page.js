@@ -842,7 +842,7 @@ function BatForsikring({ data, onNext, onBack }) {
         {/* Reg.nr */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Registreringsnummer (hvis aktuelt)
+            Registreringsnummer
           </label>
           <input
             type="text"
