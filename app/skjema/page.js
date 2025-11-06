@@ -1260,7 +1260,7 @@ function MCForsikring({ data, onNext, onBack }) {
         {/* Registreringsnummer (valgfritt) */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Registreringsnummer (valgfritt)
+            Registreringsnummer
           </label>
           <input
             type="text"
@@ -1276,7 +1276,7 @@ function MCForsikring({ data, onNext, onBack }) {
         {/* Årsmodell (valgfritt) */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Årsmodell (valgfritt)
+            Årsmodell
           </label>
           <input
             type="number"
@@ -1292,7 +1292,7 @@ function MCForsikring({ data, onNext, onBack }) {
         {/* Merke (valgfritt) */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Merke (valgfritt)
+            Merke
           </label>
           <input
             type="text"
@@ -1308,7 +1308,7 @@ function MCForsikring({ data, onNext, onBack }) {
         {/* Modell (valgfritt) */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Modell (valgfritt)
+            Modell 
           </label>
           <input
             type="text"
