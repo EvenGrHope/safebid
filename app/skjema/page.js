@@ -1054,14 +1054,27 @@ function BatForsikring({ data, onNext, onBack }) {
 // --- Elsparkesykkel ---
 function ElsparkesykkelForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
+    merke: data.merke || "",
+    modell: data.modell || "",
+    arsmodell: data.arsmodell || "",
     understellnummer: data.understellnummer || "",
+    forsikringssum: data.forsikringssum || "",
+    forsikringssumDisplay: data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : "",
     dekning: data.dekning || "",
-    verdi: data.verdi || "",
   });
 
   const handleNext = () => {
-    if (!localData.understellnummer || !localData.dekning || !localData.verdi) {
-      alert("Fyll ut alle feltene før du går videre.");
+    if (
+      !localData.merke ||
+      !localData.modell ||
+      !localData.arsmodell ||
+      !localData.understellnummer ||
+      !localData.forsikringssum ||
+      !localData.dekning
+    ) {
+      alert("Vennligst fyll ut alle påkrevde felt før du går videre.");
       return;
     }
     onNext(localData);
@@ -1069,42 +1082,156 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Elsparkesykkelforsikring</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Elsparkesykkelforsikring
+      </h2>
+
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        <input
-          type="text"
-          placeholder="Understellnummer"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.understellnummer}
-          onChange={(e) => setLocalData({ ...localData, understellnummer: e.target.value })}
-        />
+        {/* Merke */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Merke <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Segway, E-Way, Xiaomi"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.merke}
+            onChange={(e) =>
+              setLocalData({ ...localData, merke: e.target.value })
+            }
+          />
+        </div>
 
-        <select
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.dekning}
-          onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
-        >
-          <option value="">Velg dekning</option>
-          <option value="standard">Standard</option>
-          <option value="super">Super</option>
-        </select>
+        {/* Modell */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Modell <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Ninebot Max G2"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.modell}
+            onChange={(e) =>
+              setLocalData({ ...localData, modell: e.target.value })
+            }
+          />
+        </div>
 
-        <input
-          type="number"
-          placeholder="Verdi (f.eks. 15000)"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.verdi}
-          onChange={(e) => setLocalData({ ...localData, verdi: e.target.value })}
-        />
+        {/* Årsmodell */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Årsmodell <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            placeholder="F.eks. 2023"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.arsmodell}
+            onChange={(e) =>
+              setLocalData({ ...localData, arsmodell: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Understellnummer */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Understellnummer <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. SN1234567890"
+            className="w-full border rounded-lg px-4 py-3 uppercase placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.understellnummer}
+            onChange={(e) =>
+              setLocalData({
+                ...localData,
+                understellnummer: e.target.value.toUpperCase(),
+              })
+            }
+          />
+        </div>
+
+        {/* Forsikringssum */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Forsikringssum <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="F.eks. 15 000 kr"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.forsikringssumDisplay || ""}
+            onChange={(e) => {
+              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+              setLocalData({
+                ...localData,
+                forsikringssum: digitsOnly,
+                forsikringssumDisplay: digitsOnly
+                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
+                  : "",
+              });
+            }}
+            onFocus={(e) => {
+              if (localData.forsikringssum) {
+                e.target.value = localData.forsikringssum;
+              }
+            }}
+            onBlur={() => {
+              if (localData.forsikringssum) {
+                setLocalData({
+                  ...localData,
+                  forsikringssumDisplay:
+                    Number(localData.forsikringssum).toLocaleString("no-NO") +
+                    " kr",
+                });
+              }
+            }}
+          />
+        </div>
+
+        {/* Dekning */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket dekning <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.dekning}
+            onChange={(e) =>
+              setLocalData({ ...localData, dekning: e.target.value })
+            }
+          >
+            <option value="">Velg dekning</option>
+            <option value="ansvar">Ansvar</option>
+            <option value="brann-tyveri">Brann og tyveri</option>
+            <option value="kasko">Kasko</option>
+          </select>
+        </div>
       </div>
 
+      {/* Navigasjon */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- MC, ATV og Snøscooter ---
 function MCForsikring({ data, onNext, onBack }) {
@@ -2244,6 +2371,39 @@ function Oppsummering({ data, onSubmit, onBack }) {
                 <p>Navn: {h.navn}</p>
                 <p>Fødselsdato: {h.fodselsdato}</p>
                 <p>Dekning: {h.dekning}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {data.elsparkesykkel.length > 0 && (
+          <div>
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              🛴 Elsparkesykkelforsikring
+            </h3>
+
+            {data.elsparkesykkel.map((e, idx) => (
+              <div key={idx} className="p-3 bg-white rounded-xl border mb-2 space-y-1">
+                {e.merke && <p>Merke: {e.merke}</p>}
+                {e.modell && <p>Modell: {e.modell}</p>}
+                {e.arsmodell && <p>Årsmodell: {e.arsmodell}</p>}
+                {e.understellnummer && (
+                  <p>Understellnummer: {e.understellnummer}</p>
+                )}
+                {e.forsikringssum && (
+                  <p>
+                    Forsikringssum:{" "}
+                    {Number(e.forsikringssum).toLocaleString("no-NO")} kr
+                  </p>
+                )}
+                {e.dekning && (
+                  <p>
+                    Dekning:{" "}
+                    {e.dekning === "brann-tyveri"
+                      ? "Brann og tyveri"
+                      : e.dekning.charAt(0).toUpperCase() + e.dekning.slice(1)}
+                  </p>
+                )}
               </div>
             ))}
           </div>
