@@ -1138,7 +1138,7 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
         {/* Understellnummer */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Understellnummer <span className="text-red-500">*</span>
+            Understellnummer 
           </label>
           <input
             type="text"
@@ -1157,7 +1157,7 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
         {/* Forsikringssum */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Forsikringssum <span className="text-red-500">*</span>
+            Forsikringssum
           </label>
           <input
             type="text"
