@@ -644,12 +644,22 @@ function BatForsikring({ data, onNext, onBack }) {
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
         <input
           type="text"
-          placeholder="Registreringsnummer eller båtnavn"
+          placeholder=" "
           className="w-full border rounded-lg px-4 py-3"
           value={localData.regnr}
           onChange={(e) => setLocalData({ ...localData, regnr: e.target.value })}
         />
 
+        <label className="block mb-2 font-medium text-gray-800">Båtens fabrikant <span className="text-red-500">*</span></label>
+        <input
+          type="text"
+          placeholder=" "
+          className="w-full border rounded-lg px-4 py-3"
+          value={localData.regnr}
+          onChange={(e) => setLocalData({ ...localData, regnr: e.target.value })}
+        />
+
+        <label className="block mb-2 font-medium text-gray-800">Hvem skal forsikres <span className="text-red-500">*</span></label>
         <input
           type="number"
           placeholder="Verdi (f.eks. 400000)"
