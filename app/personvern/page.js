@@ -13,7 +13,7 @@ export default function Personvern() {
         1. Behandling av personopplysninger
       </h2>
       <p>
-        Pionernett AS, selskapet bak Bytteklar.no, er en leverandør av digitale
+        Selskapet AS, selskapet bak Bytteklar.no, er en leverandør av digitale
         løsninger som formidler forsikringsleads. Vi samler inn og bruker data
         som kan knyttes til våre brukere, også kjent som personopplysninger.
       </p>
@@ -21,7 +21,7 @@ export default function Personvern() {
       <h3 className="text-xl font-semibold mt-6 mb-2">Behandlingsansvarlig</h3>
       <p>
         Behandlingsansvarlig for personopplysninger som omtales i denne
-        erklæringen er Pionernett AS. Vi følger strenge regler om
+        erklæringen er Selskapet AS. Vi følger strenge regler om
         databeskyttelse, i samsvar med personvernforordningen (General Data
         Protection Regulation, GDPR).
       </p>
@@ -29,11 +29,11 @@ export default function Personvern() {
       <p className="mt-4">
         Har du spørsmål om vår behandling av dine opplysninger:
         <br />
-        <strong>Pionernett AS</strong>
+        <strong>Selskapet AS</strong>
         <br />
-        Organisasjonsnummer: 931 670 212
+        Organisasjonsnummer: xxx xxx xxx
         <br />
-        Workinntoppen 22, 9016 Tromsø
+        Adresse, xxxx post
         <br />
         <a
           href="mailto:post@bytteklar.no"
@@ -53,7 +53,7 @@ export default function Personvern() {
         du har sett på, regnes også som personopplysninger.
       </p>
       <p className="mt-4">
-        Pionernett AS er ansvarlig for håndteringen av personopplysninger som
+        Selskapet AS er ansvarlig for håndteringen av personopplysninger som
         samles inn ved bruk av våre tjenester. Bytteklar.no følger
         personopplysningsloven i behandlingen av personopplysninger.
       </p>
@@ -97,7 +97,7 @@ export default function Personvern() {
         2.2 Personopplysninger som behandles
       </h3>
       <p>
-        Pionernett AS håndterer personopplysninger som navn, telefonnummer,
+        Selskapet AS håndterer personopplysninger som navn, telefonnummer,
         adresse og e-post.
       </p>
 
