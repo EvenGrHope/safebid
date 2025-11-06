@@ -625,13 +625,33 @@ function CampingvognForsikring({ data, onNext, onBack }) {
 function BatForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
     regnr: data.regnr || "",
-    verdi: data.verdi || "",
+    batFabrikat: data.batFabrikat || "",
+    arsmodell: data.arsmodell || "",
+    postnummer: data.postnummer || "",
+    motorFabrikat: data.motorFabrikat || "",
+    hestekrefter: data.hestekrefter || "",
+    toppfart: data.toppfart || "",
+    securemark: data.securemark || false,
+    redningsselskap: data.redningsselskap || false,
+    forsikringssum: data.forsikringssum || "",
+    forsikringssumDisplay: data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : "",
     dekning: data.dekning || "",
   });
 
   const handleNext = () => {
-    if (!localData.regnr || !localData.verdi || !localData.dekning) {
-      alert("Vennligst fyll ut alle feltene før du går videre.");
+    if (
+      !localData.batFabrikat ||
+      !localData.arsmodell ||
+      !localData.postnummer ||
+      !localData.motorFabrikat ||
+      !localData.hestekrefter ||
+      !localData.toppfart ||
+      !localData.forsikringssum ||
+      !localData.dekning
+    ) {
+      alert("Vennligst fyll ut alle påkrevde felt før du går videre.");
       return;
     }
     onNext(localData);
@@ -639,50 +659,236 @@ function BatForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Båtforsikring</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Båtforsikring
+      </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        <input
-          type="text"
-          placeholder=" "
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.regnr}
-          onChange={(e) => setLocalData({ ...localData, regnr: e.target.value })}
-        />
+        {/* Båtens fabrikant */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Båtens fabrikant <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Askeladden, Yamarin, Ibiza"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.batFabrikat}
+            onChange={(e) =>
+              setLocalData({ ...localData, batFabrikat: e.target.value })
+            }
+          />
+        </div>
 
-        <label className="block mb-2 font-medium text-gray-800">Båtens fabrikant <span className="text-red-500">*</span></label>
-        <input
-          type="text"
-          placeholder=" "
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.regnr}
-          onChange={(e) => setLocalData({ ...localData, regnr: e.target.value })}
-        />
+        {/* Årsmodell */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Årsmodell <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            placeholder="F.eks. 2018"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.arsmodell}
+            onChange={(e) =>
+              setLocalData({ ...localData, arsmodell: e.target.value })
+            }
+          />
+        </div>
 
-        <label className="block mb-2 font-medium text-gray-800">Hvem skal forsikres <span className="text-red-500">*</span></label>
-        <input
-          type="number"
-          placeholder="Verdi (f.eks. 400000)"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.verdi}
-          onChange={(e) => setLocalData({ ...localData, verdi: e.target.value })}
-        />
+        {/* Havnens postnummer */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Havnens postnummer <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            maxLength={4}
+            placeholder="F.eks. 9010"
+            className="w-32 border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.postnummer}
+            onChange={(e) => {
+              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+              setLocalData({ ...localData, postnummer: digitsOnly });
+            }}
+          />
+        </div>
 
-        <select
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.dekning}
-          onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
-        >
-          <option value="">Velg dekning</option>
-          <option value="ansvar">Ansvar</option>
-          <option value="kasko">Kasko</option>
-          <option value="super">Super</option>
-        </select>
+        {/* Motorens fabrikant */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Motorens fabrikant <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Yamaha, Mercury, Suzuki"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.motorFabrikat}
+            onChange={(e) =>
+              setLocalData({ ...localData, motorFabrikat: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Hestekrefter */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Hestekrefter (hk) <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            placeholder="F.eks. 150"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.hestekrefter}
+            onChange={(e) =>
+              setLocalData({ ...localData, hestekrefter: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Toppfart */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Toppfart (knop) <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            placeholder="F.eks. 40"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.toppfart}
+            onChange={(e) =>
+              setLocalData({ ...localData, toppfart: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Sikkerhetstiltak */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Sikkerhetstiltak
+          </label>
+          <div className="flex flex-col gap-2 text-gray-700">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="w-5 h-5 accent-blue-600"
+                checked={localData.securemark || false}
+                onChange={(e) =>
+                  setLocalData({
+                    ...localData,
+                    securemark: e.target.checked,
+                  })
+                }
+              />
+              Merket med Securemark
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="w-5 h-5 accent-blue-600"
+                checked={localData.redningsselskap || false}
+                onChange={(e) =>
+                  setLocalData({
+                    ...localData,
+                    redningsselskap: e.target.checked,
+                  })
+                }
+              />
+              Medlem av Redningsselskapet eller Kystpatruljen
+            </label>
+          </div>
+        </div>
+
+        {/* Forsikringssum */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Forsikringssum <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="F.eks. 400 000 kr"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.forsikringssumDisplay || ""}
+            onChange={(e) => {
+              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+              setLocalData({
+                ...localData,
+                forsikringssum: digitsOnly,
+                forsikringssumDisplay: digitsOnly
+                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
+                  : "",
+              });
+            }}
+            onFocus={(e) => {
+              if (localData.forsikringssum) {
+                e.target.value = localData.forsikringssum;
+              }
+            }}
+            onBlur={() => {
+              if (localData.forsikringssum) {
+                setLocalData({
+                  ...localData,
+                  forsikringssumDisplay:
+                    Number(localData.forsikringssum).toLocaleString("no-NO") +
+                    " kr",
+                });
+              }
+            }}
+          />
+        </div>
+
+        {/* Reg.nr */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Registreringsnummer (hvis aktuelt)
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. ABC123"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.regnr}
+            onChange={(e) =>
+              setLocalData({ ...localData, regnr: e.target.value.toUpperCase() })
+            }
+          />
+        </div>
+
+        {/* Dekning */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket dekning <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.dekning}
+            onChange={(e) =>
+              setLocalData({ ...localData, dekning: e.target.value })
+            }
+          >
+            <option value="">Velg dekning</option>
+            <option value="delkasko">Delkasko</option>
+            <option value="kasko">Kasko</option>
+            <option value="super">Super</option>
+          </select>
+        </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
@@ -1862,12 +2068,41 @@ function Oppsummering({ data, onSubmit, onBack }) {
 
         {data.bat.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">🚤 Båtforsikring</h3>
-            {data.bat.map((b, i) => (
-              <div key={i} className="p-3 bg-white rounded-xl border mb-2">
-                <p>Registreringsnummer: {b.regnr}</p>
-                <p>Verdi: {b.verdi}</p>
-                <p>Dekning: {b.dekning}</p>
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              🚤 Båtforsikring
+            </h3>
+
+            {data.bat.map((b, idx) => (
+              <div key={idx} className="p-3 bg-white rounded-xl border mb-2 space-y-1">
+                {b.batFabrikat && <p>Båtens fabrikant: {b.batFabrikat}</p>}
+                {b.arsmodell && <p>Årsmodell: {b.arsmodell}</p>}
+                {b.postnummer && <p>Havnens postnummer: {b.postnummer}</p>}
+                {b.motorFabrikat && <p>Motorens fabrikant: {b.motorFabrikat}</p>}
+                {b.hestekrefter && <p>Motorstyrke: {b.hestekrefter} hk</p>}
+                {b.toppfart && <p>Toppfart: {b.toppfart} knop</p>}
+
+                {b.forsikringssum && (
+                  <p>
+                    Forsikringssum:{" "}
+                    {Number(b.forsikringssum).toLocaleString("no-NO")} kr
+                  </p>
+                )}
+
+                {b.regnr && <p>Registreringsnummer: {b.regnr}</p>}
+                {b.dekning && <p>Dekning: {b.dekning}</p>}
+
+                <div className="mt-2">
+                  <p className="font-medium text-gray-800">Sikkerhetstiltak:</p>
+                  <ul className="list-disc list-inside text-gray-700">
+                    <li>
+                      Merket med Securemark: {b.securemark ? "Ja" : "Nei"}
+                    </li>
+                    <li>
+                      Medlem av Redningsselskapet/Kystpatruljen:{" "}
+                      {b.redningsselskap ? "Ja" : "Nei"}
+                    </li>
+                  </ul>
+                </div>
               </div>
             ))}
           </div>
