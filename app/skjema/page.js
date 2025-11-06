@@ -1143,7 +1143,7 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
           <input
             type="text"
             placeholder="F.eks. SN1234567890"
-            className="w-full border rounded-lg px-4 py-3 uppercase placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.understellnummer}
             onChange={(e) =>
               setLocalData({
