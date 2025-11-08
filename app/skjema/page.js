@@ -4029,8 +4029,10 @@ function SkjemaContent() {
   };
 
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const response = await fetch("/api/sendMail", {
         method: "POST",
@@ -4040,11 +4042,12 @@ function SkjemaContent() {
 
       if (!response.ok) throw new Error("Feil ved sending");
 
-      alert("Skjema sendt til rådgiver!");
       router.push("/takk-forsikring");
     } catch (err) {
       console.error(err);
       alert("Kunne ikke sende skjema. Prøv igjen senere.");
+    } finally {
+      setLoading(false);
     }
   };
 
