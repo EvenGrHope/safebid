@@ -2630,7 +2630,14 @@ function KontaktInfo({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState(data);
 
   const handleNext = () => {
-    if (!localData.navn || !localData.epost || !localData.telefon || !localData.selskap) {
+    if (
+      !localData.navn ||
+      !localData.epost ||
+      !localData.telefon ||
+      !localData.selskap ||
+      !localData.fodselsdato ||
+      localData.skader === undefined
+    ) {
       alert("Vennligst fyll ut alle feltene før du går videre.");
       return;
     }
@@ -2639,58 +2646,138 @@ function KontaktInfo({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Kontaktinformasjon</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Kontaktinformasjon
+      </h2>
+
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        <input
-          type="text"
-          placeholder="F.eks. Eva Hansen"
-          className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-          value={localData.navn || ""}
-          onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
-        />
+        {/* Navn */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fullt navn <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Eva Hansen"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, navn: e.target.value })
+            }
+          />
+        </div>
 
-        <input
-          type="email"
-          placeholder="F.eks. eva.hansen@email.no"
-          className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-          value={localData.epost || ""}
-          onChange={(e) => setLocalData({ ...localData, epost: e.target.value })}
-        />
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, fodselsdato: e.target.value })
+            }
+          />
+        </div>
 
-        <input
-          type="tel"
-          placeholder="F.eks. 900 12 345"
-          className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-          value={localData.telefon || ""}
-          onChange={(e) => setLocalData({ ...localData, telefon: e.target.value })}
-        />
+        {/* E-post */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            E-postadresse <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            placeholder="F.eks. eva.hansen@email.no"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.epost || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, epost: e.target.value })
+            }
+          />
+        </div>
 
-        <select
-        className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
-        value={localData.selskap || ""}
-        onChange={(e) => setLocalData({ ...localData, selskap: e.target.value })}
-      >
-        <option value="">Velg ditt nåværende forsikringsselskap</option>
-        <option value="Storebrand">Storebrand</option>
-        <option value="IF">IF</option>
-        <option value="Gjensidige">Gjensidige</option>
-        <option value="Tryg">Tryg</option>
-        <option value="Fremtind">Fremtind</option>
-        <option value="Annet">Annet</option>
-      </select>
+        {/* Telefon */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Telefonnummer <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            placeholder="F.eks. 900 12 345"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.telefon || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, telefon: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Nåværende forsikringsselskap */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Nåværende forsikringsselskap <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.selskap || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, selskap: e.target.value })
+            }
+          >
+            <option value="">Velg ditt nåværende forsikringsselskap</option>
+            <option value="Storebrand">Storebrand</option>
+            <option value="IF">IF</option>
+            <option value="Gjensidige">Gjensidige</option>
+            <option value="Tryg">Tryg</option>
+            <option value="Fremtind">Fremtind (SpareBank 1 / DNB)</option>
+            <option value="Annet">Annet</option>
+          </select>
+        </div>
+
+        {/* Antall skader siste tre år */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Antall skader siste tre år <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.skader || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, skader: e.target.value })
+            }
+          >
+            <option value="">Velg antall</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5+">5 eller flere</option>
+          </select>
+        </div>
       </div>
 
+      {/* Navigasjon */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300">
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
           Tilbake
         </button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
           Neste
         </button>
       </div>
     </div>
   );
 }
+
 
 // --- Oppsummering ---
 function Oppsummering({ data, onSubmit, onBack }) {
