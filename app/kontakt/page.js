@@ -53,7 +53,7 @@ export default function ContactPage() {
               {
                 ikon: <Clock className="text-blue-700" size={28} />,
                 tittel: "Åpningstider",
-                tekst: "Man – Fre: 09 – 16",
+                tekst: "Man–Fre: 09–16",
               },
             ].map((info, i) => (
               <div
