@@ -1362,18 +1362,36 @@ function HytteForsikring({ data, onNext, onBack }) {
     adresse: data.adresse || "",
     byggeår: data.byggeår || "",
     bruksareal: data.bruksareal || "",
+    utleie: data.utleie || "",
     sikkerhetstiltak: data.sikkerhetstiltak || {
       brannalarm: false,
       innbruddsalarm: false,
       vannstopper: false,
       komfyrvakt: false,
     },
+    tilleggsbygg: data.tilleggsbygg || [],
+    harTilleggsbygg: data.harTilleggsbygg || false,
     dekning: data.dekning || "",
   });
 
+  const handleAddBygg = () => {
+    setLocalData({
+      ...localData,
+      tilleggsbygg: [
+        ...localData.tilleggsbygg,
+        { byggeår: "", bruksareal: "", beskrivelse: "" },
+      ],
+    });
+  };
+
   const handleNext = () => {
-    if (!localData.adresse || !localData.byggeår || !localData.bruksareal || !localData.dekning) {
-      alert("Vennligst fyll ut alle feltene før du går videre.");
+    if (
+      !localData.adresse ||
+      !localData.byggeår ||
+      !localData.bruksareal ||
+      !localData.dekning
+    ) {
+      alert("Vennligst fyll ut alle påkrevde felt.");
       return;
     }
     onNext(localData);
@@ -1381,35 +1399,75 @@ function HytteForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Hytteforsikring</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Hytteforsikring
+      </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        {/* Adresse */}
+        <label className="block mb-2 font-medium text-gray-800">
+          Adresse <span className="text-red-500">*</span>
+        </label>
         <input
           type="text"
-          placeholder="Adresse (f.eks. Hytteveien 10, Hemsedal)"
+          placeholder="F.eks. Hytteveien 10, Hemsedal"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.adresse}
-          onChange={(e) => setLocalData({ ...localData, adresse: e.target.value })}
+          onChange={(e) =>
+            setLocalData({ ...localData, adresse: e.target.value })
+          }
         />
 
+        {/* Byggeår */}
+        <label className="block mb-2 font-medium text-gray-800">
+          Byggeår <span className="text-red-500">*</span>
+        </label>
         <input
           type="number"
-          placeholder="Byggeår (f.eks. 1998)"
+          placeholder="F.eks. 1998"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.byggeår}
-          onChange={(e) => setLocalData({ ...localData, byggeår: e.target.value })}
+          onChange={(e) =>
+            setLocalData({ ...localData, byggeår: e.target.value })
+          }
         />
 
+        {/* Bruksareal */}
+        <label className="block mb-2 font-medium text-gray-800">
+          Bruksareal (BRA) <span className="text-red-500">*</span>
+        </label>
         <input
           type="number"
-          placeholder="Bruksareal i kvm (f.eks. 120)"
+          placeholder="F.eks. 90 kvm"
           className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
           value={localData.bruksareal}
-          onChange={(e) => setLocalData({ ...localData, bruksareal: e.target.value })}
+          onChange={(e) =>
+            setLocalData({ ...localData, bruksareal: e.target.value })
+          }
         />
 
+        {/* Utleie */}
+        <label className="block mb-2 font-medium text-gray-800">
+          Leies hytta ut?
+        </label>
+        <select
+          className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+          value={localData.utleie}
+          onChange={(e) =>
+            setLocalData({ ...localData, utleie: e.target.value })
+          }
+        >
+          <option value="">-</option>
+          <option value="nei">Nei</option>
+          <option value="delvis">Delvis</option>
+          <option value="ja">Ja</option>
+        </select>
+
+        {/* Sikkerhetstiltak */}
         <div className="space-y-2">
-          <label className="font-medium text-gray-800">Sikkerhetstiltak</label>
+          <label className="font-medium text-gray-800">
+            Sikkerhetstiltak
+          </label>
           {Object.keys(localData.sikkerhetstiltak).map((key) => (
             <label key={key} className="flex items-center gap-2">
               <input
@@ -1431,24 +1489,134 @@ function HytteForsikring({ data, onNext, onBack }) {
           ))}
         </div>
 
+        {/* Tilleggsbygg */}
+        <div className="space-y-3">
+          <label className="font-medium text-gray-800">Tilleggsbygg</label>
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              className="w-5 h-5 accent-blue-600"
+              checked={localData.harTilleggsbygg}
+              onChange={(e) =>
+                setLocalData({
+                  ...localData,
+                  harTilleggsbygg: e.target.checked,
+                })
+              }
+            />
+            <span>Har tilleggsbygg (anneks, bod, garasje, etc.)</span>
+          </div>
+
+          {localData.harTilleggsbygg && (
+            <div className="space-y-5 mt-4">
+              {localData.tilleggsbygg.map((bygg, i) => (
+                <div
+                  key={i}
+                  className="bg-white p-4 rounded-lg border border-gray-300 shadow-sm space-y-3"
+                >
+                  <input
+                    type="number"
+                    placeholder="Byggeår"
+                    className="w-full border rounded-lg px-3 py-2"
+                    value={bygg.byggeår}
+                    onChange={(e) => {
+                      const newList = [...localData.tilleggsbygg];
+                      newList[i].byggeår = e.target.value;
+                      setLocalData({ ...localData, tilleggsbygg: newList });
+                    }}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Bruksareal (kvm)"
+                    className="w-full border rounded-lg px-3 py-2"
+                    value={bygg.bruksareal}
+                    onChange={(e) => {
+                      const newList = [...localData.tilleggsbygg];
+                      newList[i].bruksareal = e.target.value;
+                      setLocalData({ ...localData, tilleggsbygg: newList });
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Beskrivelse (f.eks. anneks, bod eller garasje)"
+                    className="w-full border rounded-lg px-3 py-2"
+                    value={bygg.beskrivelse}
+                    onChange={(e) => {
+                      const newList = [...localData.tilleggsbygg];
+                      newList[i].beskrivelse = e.target.value;
+                      setLocalData({ ...localData, tilleggsbygg: newList });
+                    }}
+                  />
+
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (
+                          window.confirm("Er du sikker på at du vil fjerne dette bygget?")
+                        ) {
+                          const newList = localData.tilleggsbygg.filter(
+                            (_, idx) => idx !== i
+                          );
+                          setLocalData({
+                            ...localData,
+                            tilleggsbygg: newList,
+                          });
+                        }
+                      }}
+                      className="border border-red-300 text-red-700 bg-red-50 hover:bg-red-100 hover:border-red-400 font-medium text-sm px-4 py-1.5 rounded-lg transition-all duration-200"
+                    >
+                      X Fjern bygg
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                onClick={handleAddBygg}
+                className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200"
+              >
+                + Legg til bygg
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Dekning */}
+        <label className="block mb-2 font-medium text-gray-800">
+          Ønsket dekning <span className="text-red-500">*</span>
+        </label>
         <select
           className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
           value={localData.dekning}
-          onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
+          onChange={(e) =>
+            setLocalData({ ...localData, dekning: e.target.value })
+          }
         >
-          <option value="">Velg dekning</option>
+          <option value="">-</option>
           <option value="standard">Standard</option>
           <option value="super">Super</option>
         </select>
       </div>
 
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- Verdisakforsikring ---
 function VerdisakForsikring({ data, onNext, onBack }) {
@@ -3033,11 +3201,35 @@ function Oppsummering({ data, onSubmit, onBack }) {
                 <p>Adresse: {h.adresse}</p>
                 <p>Byggeår: {h.byggeår}</p>
                 <p>Bruksareal: {h.bruksareal} kvm</p>
+                <p>Utleie: {h.utleie || "-"}</p>
                 <p>Dekning: {h.dekning}</p>
+
+                <p>
+                  Sikkerhetstiltak:{" "}
+                  {Object.entries(h.sikkerhetstiltak || {})
+                    .filter(([_, v]) => v)
+                    .map(([k]) => k)
+                    .join(", ") || "Ingen"}
+                </p>
+
+                {h.harTilleggsbygg && h.tilleggsbygg?.length > 0 && (
+                  <div className="mt-2">
+                    <p className="font-medium">Tilleggsbygg:</p>
+                    {h.tilleggsbygg.map((tb, idx) => (
+                      <div key={idx} className="ml-3 text-sm">
+                        <p>
+                          - {tb.beskrivelse || "Ukjent"} (
+                          {tb.byggeår || "?"}, {tb.bruksareal || "?"} kvm)
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         )}
+
 
         {data.verdisak.length > 0 && (
           <div>
