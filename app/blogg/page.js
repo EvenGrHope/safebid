@@ -96,17 +96,16 @@ export default function BlogPage() {
       <section className="py-20 bg-blue-700 text-white text-center">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Vil du motta våre beste forsikringstips?
+            Klar for å se hvor mye du kan spare?
           </h2>
           <p className="text-lg mb-8 opacity-90">
-            Meld deg på vårt nyhetsbrev og få eksklusive guider, analyser og
-            tilbud rett i innboksen.
+            Fyll ut ett skjema – få tilbud fra flere rådgivere – og velg det som passer deg best.
           </p>
           <Link
-            href="/kontakt"
+            href="/forsikringer"
             className="bg-white text-blue-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition"
           >
-            Kontakt oss
+            Start nå
           </Link>
         </div>
       </section>
