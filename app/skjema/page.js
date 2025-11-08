@@ -1922,13 +1922,19 @@ function TilhengerForsikring({ data, onNext, onBack }) {
 function TraktorForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
     regnr: data.regnr || "",
-    verdi: data.verdi || "",
+    arsmodell: data.arsmodell || "",
+    merke: data.merke || "",
+    modell: data.modell || "",
+    forsikringssum: data.forsikringssum || "",
+    forsikringssumDisplay: data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : "",
     dekning: data.dekning || "",
   });
 
   const handleNext = () => {
-    if (!localData.regnr || !localData.verdi || !localData.dekning) {
-      alert("Vennligst fyll ut alle feltene før du går videre.");
+    if (!localData.forsikringssum || !localData.dekning) {
+      alert("Vennligst fyll ut forsikringssum og ønsket dekning før du går videre.");
       return;
     }
     onNext(localData);
@@ -1936,41 +1942,138 @@ function TraktorForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Traktor og arbeidsmaskin</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Traktor og arbeidsmaskin
+      </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        <input
-          type="text"
-          placeholder="Registreringsnummer"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.regnr}
-          onChange={(e) => setLocalData({ ...localData, regnr: e.target.value })}
-        />
+        {/* Reg.nr (valgfritt) */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Registreringsnummer
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. AB1234"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.regnr}
+            onChange={(e) =>
+              setLocalData({ ...localData, regnr: e.target.value })
+            }
+          />
+        </div>
 
-        <input
-          type="number"
-          placeholder="Verdi (f.eks. 350000)"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.verdi}
-          onChange={(e) => setLocalData({ ...localData, verdi: e.target.value })}
-        />
+        {/* Årsmodell (valgfritt) */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Årsmodell
+          </label>
+          <input
+            type="number"
+            placeholder="F.eks. 2018"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.arsmodell}
+            onChange={(e) =>
+              setLocalData({ ...localData, arsmodell: e.target.value })
+            }
+          />
+        </div>
 
-        <select
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.dekning}
-          onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
-        >
-          <option value="">Velg dekning</option>
-          <option value="ansvar">Ansvar</option>
-          <option value="kasko">Kasko</option>
-          <option value="super">Super</option>
-        </select>
+        {/* Merke (valgfritt) */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Merke
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. John Deere, Massey Ferguson"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.merke}
+            onChange={(e) =>
+              setLocalData({ ...localData, merke: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Modell (valgfritt) */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Modell
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. 6155M, 5711M"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.modell}
+            onChange={(e) =>
+              setLocalData({ ...localData, modell: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Forsikringssum (påkrevd) */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Forsikringssum <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="F.eks. 350 000 kr"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.forsikringssumDisplay || ""}
+            onChange={(e) => {
+              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+              setLocalData({
+                ...localData,
+                forsikringssum: digitsOnly,
+                forsikringssumDisplay: digitsOnly
+                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
+                  : "",
+              });
+            }}
+            onFocus={(e) => {
+              if (localData.forsikringssum) {
+                e.target.value = localData.forsikringssum;
+              }
+            }}
+            onBlur={() => {
+              if (localData.forsikringssum) {
+                setLocalData({
+                  ...localData,
+                  forsikringssumDisplay:
+                    Number(localData.forsikringssum).toLocaleString("no-NO") +
+                    " kr",
+                });
+              }
+            }}
+          />
+        </div>
+
+        {/* Dekning (påkrevd) */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket dekning <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.dekning}
+            onChange={(e) =>
+              setLocalData({ ...localData, dekning: e.target.value })
+            }
+          >
+            <option value="">Velg dekning</option>
+            <option value="brann-tyveri">Brann og tyveri</option>
+            <option value="kasko">Kasko</option>
+          </select>
+        </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
-          className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300"
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
         >
           Tilbake
         </button>
@@ -2836,6 +2939,42 @@ function Oppsummering({ data, onSubmit, onBack }) {
                     {m.dekning === "delkasko"
                       ? "Delkasko"
                       : m.dekning.charAt(0).toUpperCase() + m.dekning.slice(1)}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {data.traktor.length > 0 && (
+          <div>
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              🚜 Traktor og arbeidsmaskin
+            </h3>
+
+            {data.traktor.map((t, idx) => (
+              <div
+                key={idx}
+                className="p-3 bg-white rounded-xl border mb-2 space-y-1"
+              >
+                {t.regnr && <p>Registreringsnummer: {t.regnr}</p>}
+                {t.arsmodell && <p>Årsmodell: {t.arsmodell}</p>}
+                {t.merke && <p>Merke: {t.merke}</p>}
+                {t.modell && <p>Modell: {t.modell}</p>}
+
+                {t.forsikringssum && (
+                  <p>
+                    Forsikringssum:{" "}
+                    {Number(t.forsikringssum).toLocaleString("no-NO")} kr
+                  </p>
+                )}
+
+                {t.dekning && (
+                  <p>
+                    Dekning:{" "}
+                    {t.dekning === "brann-tyveri"
+                      ? "Brann og tyveri"
+                      : t.dekning.charAt(0).toUpperCase() + t.dekning.slice(1)}
                   </p>
                 )}
               </div>
