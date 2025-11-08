@@ -3925,46 +3925,11 @@ function Oppsummering({ data, onSubmit, onBack }) {
       </div>
 
       <div className="flex justify-between mt-8">
-        <button
-          onClick={onBack}
-          disabled={loading}
-          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300 disabled:opacity-50"
-        >
+        <button onClick={onBack} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300">
           Tilbake
         </button>
-
-        <button
-          onClick={onSubmit}
-          disabled={loading}
-          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800 flex items-center justify-center gap-2 disabled:opacity-70"
-        >
-          {loading ? (
-            <>
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                ></path>
-              </svg>
-              Sender...
-            </>
-          ) : (
-            "Send inn forespørsel"
-          )}
+        <button onClick={onSubmit} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">
+          Send inn forespørsel
         </button>
       </div>
     </div>
@@ -4065,10 +4030,7 @@ function SkjemaContent() {
 
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
 
-  const [loading, setLoading] = useState(false);
-
   const handleSubmit = async () => {
-    setLoading(true);
     try {
       const response = await fetch("/api/sendMail", {
         method: "POST",
@@ -4078,12 +4040,11 @@ function SkjemaContent() {
 
       if (!response.ok) throw new Error("Feil ved sending");
 
+      alert("Skjema sendt til rådgiver!");
       router.push("/takk-forsikring");
     } catch (err) {
       console.error(err);
       alert("Kunne ikke sende skjema. Prøv igjen senere.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -4131,7 +4092,7 @@ function SkjemaContent() {
         {currentStep.type === "helse" && <HelseForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
         {currentStep.type === "ulykke" && <UlykkeForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
         {currentStep.type === "kontakt" && <KontaktInfo data={getStepData()} onNext={handleNext} onBack={handleBack} />}
-        {currentStep.type === "oppsummering" && <Oppsummering data={formData} onSubmit={handleSubmit} onBack={handleBack} loading={loading} />}
+        {currentStep.type === "oppsummering" && <Oppsummering data={formData} onSubmit={handleSubmit} onBack={handleBack} />}
       </div>
     </main>
   );
