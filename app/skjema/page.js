@@ -565,30 +565,49 @@ function HusForsikring({ data, onNext, onBack }) {
   );
 }
 
-// --- CampingvognForsikring ---
+// --- Campingvognforsikring ---
 function CampingvognForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
-    regnr: data.regnr || "",
     arsmodell: data.arsmodell || "",
     merke: data.merke || "",
     modell: data.modell || "",
     fastSted: data.fastSted || false,
     forsikringssum: data.forsikringssum || "",
-    forsikringssumDisplay: data.forsikringssum
-      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
-      : "",
     dekning: data.dekning || "",
   });
 
+  // Egen state for visningsverdi av forsikringssum (for pen formatering)
+  const [displayValue, setDisplayValue] = useState(
+    data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : ""
+  );
+
+  // --- Funksjoner for håndtering av valuta ---
+  const handleForsikringssumChange = (e) => {
+    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+    setLocalData({ ...localData, forsikringssum: digitsOnly });
+    setDisplayValue(digitsOnly);
+  };
+
+  const handleForsikringssumBlur = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(
+        Number(localData.forsikringssum).toLocaleString("no-NO") + " kr"
+      );
+    }
+  };
+
+  const handleForsikringssumFocus = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(localData.forsikringssum);
+    }
+  };
+
+  // --- Validering ---
   const handleNext = () => {
-    if (
-      !localData.arsmodell ||
-      !localData.merke ||
-      !localData.modell ||
-      !localData.forsikringssum ||
-      !localData.dekning
-    ) {
-      alert("Vennligst fyll ut alle påkrevde felt før du går videre.");
+    if (!localData.forsikringssum || !localData.dekning) {
+      alert("Vennligst fyll ut forsikringssum og ønsket dekning før du går videre.");
       return;
     }
     onNext(localData);
@@ -601,42 +620,10 @@ function CampingvognForsikring({ data, onNext, onBack }) {
       </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        {/* Merke */}
-        <div>
-          <label className="block mb-2 font-medium text-gray-800">
-            Merke <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="F.eks. Hobby, Kabe, Adria"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.merke}
-            onChange={(e) =>
-              setLocalData({ ...localData, merke: e.target.value })
-            }
-          />
-        </div>
-
-        {/* Modell */}
-        <div>
-          <label className="block mb-2 font-medium text-gray-800">
-            Modell <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="F.eks. 560 KMFe"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.modell}
-            onChange={(e) =>
-              setLocalData({ ...localData, modell: e.target.value })
-            }
-          />
-        </div>
-
         {/* Årsmodell */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Årsmodell <span className="text-red-500">*</span>
+            Årsmodell (valgfritt)
           </label>
           <input
             type="number"
@@ -649,22 +636,51 @@ function CampingvognForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Fast plass */}
+        {/* Merke */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Merke (valgfritt)
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Adria, Kabe, Dethleffs"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.merke}
+            onChange={(e) =>
+              setLocalData({ ...localData, merke: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Modell */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Modell (valgfritt)
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Alpina 663 HT"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.modell}
+            onChange={(e) =>
+              setLocalData({ ...localData, modell: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Fast sted */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Står campingvognen på fast sted hele året?
           </label>
-          <div className="flex items-center gap-6 text-gray-700">
+          <div className="flex items-center gap-4">
             <label className="flex items-center gap-2">
               <input
                 type="radio"
                 name="fastSted"
-                value="true"
                 className="w-5 h-5 accent-blue-600"
                 checked={localData.fastSted === true}
-                onChange={() =>
-                  setLocalData({ ...localData, fastSted: true })
-                }
+                onChange={() => setLocalData({ ...localData, fastSted: true })}
               />
               Ja
             </label>
@@ -672,19 +688,16 @@ function CampingvognForsikring({ data, onNext, onBack }) {
               <input
                 type="radio"
                 name="fastSted"
-                value="false"
                 className="w-5 h-5 accent-blue-600"
                 checked={localData.fastSted === false}
-                onChange={() =>
-                  setLocalData({ ...localData, fastSted: false })
-                }
+                onChange={() => setLocalData({ ...localData, fastSted: false })}
               />
               Nei
             </label>
           </div>
         </div>
 
-        {/* Forsikringssum */}
+        {/* Forsikringssum (nå med riktig format og backspace-støtte) */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Forsikringssum (inkl. spikertelt) <span className="text-red-500">*</span>
@@ -694,48 +707,10 @@ function CampingvognForsikring({ data, onNext, onBack }) {
             inputMode="numeric"
             placeholder="F.eks. 250 000 kr"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.forsikringssumDisplay || ""}
-            onChange={(e) => {
-              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-              setLocalData({
-                ...localData,
-                forsikringssum: digitsOnly,
-                forsikringssumDisplay: digitsOnly
-                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
-                  : "",
-              });
-            }}
-            onFocus={(e) => {
-              if (localData.forsikringssum) {
-                e.target.value = localData.forsikringssum;
-              }
-            }}
-            onBlur={() => {
-              if (localData.forsikringssum) {
-                setLocalData({
-                  ...localData,
-                  forsikringssumDisplay:
-                    Number(localData.forsikringssum).toLocaleString("no-NO") +
-                    " kr",
-                });
-              }
-            }}
-          />
-        </div>
-
-        {/* Reg.nr */}
-        <div>
-          <label className="block mb-2 font-medium text-gray-800">
-            Registreringsnummer
-          </label>
-          <input
-            type="text"
-            placeholder="F.eks. AB12345"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600 uppercase"
-            value={localData.regnr}
-            onChange={(e) =>
-              setLocalData({ ...localData, regnr: e.target.value.toUpperCase() })
-            }
+            value={displayValue}
+            onChange={handleForsikringssumChange}
+            onFocus={handleForsikringssumFocus}
+            onBlur={handleForsikringssumBlur}
           />
         </div>
 
@@ -759,7 +734,7 @@ function CampingvognForsikring({ data, onNext, onBack }) {
         </div>
       </div>
 
-      {/* Navigasjonsknapper */}
+      {/* Navigasjon */}
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
@@ -778,30 +753,55 @@ function CampingvognForsikring({ data, onNext, onBack }) {
   );
 }
 
+
 // --- Båtforsikring ---
 function BatForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
-    regnr: data.regnr || "",
     batFabrikat: data.batFabrikat || "",
     arsmodell: data.arsmodell || "",
     postnummer: data.postnummer || "",
     motorFabrikat: data.motorFabrikat || "",
     hestekrefter: data.hestekrefter || "",
     toppfart: data.toppfart || "",
+    forsikringssum: data.forsikringssum || "",
+    dekning: data.dekning || "",
+    regnr: data.regnr || "",
     securemark: data.securemark || false,
     redningsselskap: data.redningsselskap || false,
-    forsikringssum: data.forsikringssum || "",
-    forsikringssumDisplay: data.forsikringssum
-      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
-      : "",
-    dekning: data.dekning || "",
   });
+
+  // Lokal visningsverdi for forsikringssum (unngår at input låser seg)
+  const [displayValue, setDisplayValue] = useState(
+    data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : ""
+  );
+
+  // --- Funksjoner for korrekt håndtering av tallfeltet ---
+  const handleForsikringssumChange = (e) => {
+    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+    setLocalData({ ...localData, forsikringssum: digitsOnly });
+    setDisplayValue(digitsOnly);
+  };
+
+  const handleForsikringssumBlur = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(
+        Number(localData.forsikringssum).toLocaleString("no-NO") + " kr"
+      );
+    }
+  };
+
+  const handleForsikringssumFocus = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(localData.forsikringssum);
+    }
+  };
 
   const handleNext = () => {
     if (
       !localData.batFabrikat ||
       !localData.arsmodell ||
-      !localData.postnummer ||
       !localData.motorFabrikat ||
       !localData.hestekrefter ||
       !localData.toppfart ||
@@ -821,14 +821,14 @@ function BatForsikring({ data, onNext, onBack }) {
       </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        {/* Båtens fabrikant */}
+        {/* Fabrikat */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Båtens fabrikant <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            placeholder="F.eks. Askeladden, Yamarin, Ibiza"
+            placeholder="F.eks. Yamarin, Ibiza, Askeladden"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.batFabrikat}
             onChange={(e) =>
@@ -844,7 +844,7 @@ function BatForsikring({ data, onNext, onBack }) {
           </label>
           <input
             type="number"
-            placeholder="F.eks. 2018"
+            placeholder="F.eks. 2020"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.arsmodell}
             onChange={(e) =>
@@ -856,30 +856,27 @@ function BatForsikring({ data, onNext, onBack }) {
         {/* Havnens postnummer */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Havnens postnummer <span className="text-red-500">*</span>
+            Havnens postnummer (valgfritt)
           </label>
           <input
             type="text"
-            inputMode="numeric"
-            maxLength={4}
-            placeholder="F.eks. 9010"
+            placeholder="F.eks. 1512"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.postnummer}
-            onChange={(e) => {
-              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-              setLocalData({ ...localData, postnummer: digitsOnly });
-            }}
+            onChange={(e) =>
+              setLocalData({ ...localData, postnummer: e.target.value })
+            }
           />
         </div>
 
-        {/* Motorens fabrikant */}
+        {/* Motorfabrikat */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Motorens fabrikant <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            placeholder="F.eks. Yamaha, Mercury, Suzuki"
+            placeholder="F.eks. Yamaha, Mercury"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.motorFabrikat}
             onChange={(e) =>
@@ -891,11 +888,11 @@ function BatForsikring({ data, onNext, onBack }) {
         {/* Hestekrefter */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Hestekrefter (hk) <span className="text-red-500">*</span>
+            Motorstyrke (hestekrefter) <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
-            placeholder="F.eks. 150"
+            placeholder="F.eks. 115"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.hestekrefter}
             onChange={(e) =>
@@ -911,12 +908,29 @@ function BatForsikring({ data, onNext, onBack }) {
           </label>
           <input
             type="number"
-            placeholder="F.eks. 40"
+            placeholder="F.eks. 38"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.toppfart}
             onChange={(e) =>
               setLocalData({ ...localData, toppfart: e.target.value })
             }
+          />
+        </div>
+
+        {/* Forsikringssum – med riktig formatkontroll */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Forsikringssum <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="F.eks. 450 000 kr"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={displayValue}
+            onChange={handleForsikringssumChange}
+            onFocus={handleForsikringssumFocus}
+            onBlur={handleForsikringssumBlur}
           />
         </div>
 
@@ -932,10 +946,7 @@ function BatForsikring({ data, onNext, onBack }) {
                 className="w-5 h-5 accent-blue-600"
                 checked={localData.securemark || false}
                 onChange={(e) =>
-                  setLocalData({
-                    ...localData,
-                    securemark: e.target.checked,
-                  })
+                  setLocalData({ ...localData, securemark: e.target.checked })
                 }
               />
               Merket med Securemark
@@ -952,59 +963,20 @@ function BatForsikring({ data, onNext, onBack }) {
                   })
                 }
               />
-              Medlem av Redningsselskapet eller Kystpatruljen
+              Medlem av Redningsselskapet / Kystpatruljen
             </label>
           </div>
         </div>
 
-        {/* Forsikringssum */}
+        {/* Registreringsnummer */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Forsikringssum <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            inputMode="numeric"
-            placeholder="F.eks. 400 000 kr"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.forsikringssumDisplay || ""}
-            onChange={(e) => {
-              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-              setLocalData({
-                ...localData,
-                forsikringssum: digitsOnly,
-                forsikringssumDisplay: digitsOnly
-                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
-                  : "",
-              });
-            }}
-            onFocus={(e) => {
-              if (localData.forsikringssum) {
-                e.target.value = localData.forsikringssum;
-              }
-            }}
-            onBlur={() => {
-              if (localData.forsikringssum) {
-                setLocalData({
-                  ...localData,
-                  forsikringssumDisplay:
-                    Number(localData.forsikringssum).toLocaleString("no-NO") +
-                    " kr",
-                });
-              }
-            }}
-          />
-        </div>
-
-        {/* Reg.nr */}
-        <div>
-          <label className="block mb-2 font-medium text-gray-800">
-            Registreringsnummer
+            Registreringsnummer (valgfritt)
           </label>
           <input
             type="text"
             placeholder="F.eks. ABC123"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            className="w-full border rounded-lg px-4 py-3 uppercase placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.regnr}
             onChange={(e) =>
               setLocalData({ ...localData, regnr: e.target.value.toUpperCase() })
@@ -1050,6 +1022,7 @@ function BatForsikring({ data, onNext, onBack }) {
     </div>
   );
 }
+
 
 // --- Elsparkesykkel ---
 function ElsparkesykkelForsikring({ data, onNext, onBack }) {
