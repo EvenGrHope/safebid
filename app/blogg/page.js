@@ -7,24 +7,21 @@ export default function BlogPage() {
   const articles = [
     {
       bilde: "/guide-bil.jpg",
-      tittel: "Hva påvirker prisen på bilforsikring?",
-      tekst:
-        "Lær hva som gjør at prisen på bilforsikring varierer mellom selskaper, og hvordan du kan spare penger uten å miste viktige dekninger.",
-      kategori: "Bilforsikring",
+      tittel: "Guide til bilforsikring",
+      tekst: 
+        "Forstå bonus, egenandel og dekninger før du velger bilforsikring.",
     },
     {
       bilde: "/guide-hus.jpg",
-      tittel: "5 tips for billigere husforsikring",
+      tittel: "Guide til hus- og innboforsikring",
       tekst:
-        "Små justeringer kan gi store besparelser. Vi forklarer hvordan du får lavere premie uten å redusere tryggheten.",
-      kategori: "Hus og innbo",
+        "Hvordan sikrer du hjemmet ditt riktig, og unngår over- eller underforsikring?",
     },
     {
       bilde: "/guide-reise.jpg",
-      tittel: "Når bør du bytte forsikringsselskap?",
+      tittel: "Guide til reiseforsikring",
       tekst:
-        "Et nytt selskap kan ofte gi bedre vilkår eller pris. Her er tegnene på at du bør se deg om etter et nytt tilbud.",
-      kategori: "Generelt",
+        "Når dekker forsikringen egentlig skader, avbestilling og bagasje?",
     },
   ];
 
