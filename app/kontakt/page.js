@@ -19,7 +19,7 @@ export default function ContactPage() {
           <h1 className="text-5xl font-bold mb-6 text-gray-900">
             Kontakt <span className="text-blue-700">BytteKlar.no</span>
           </h1>
-          <p className="text-lg text-gray-700 max-w-2.7xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
             Har du spørsmål, ønsker samarbeid, eller vil vite mer om hvordan Bytteklar.no fungerer?
             Vi hører gjerne fra deg.
           </p>
