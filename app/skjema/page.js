@@ -3268,10 +3268,10 @@ function Oppsummering({ data, onSubmit, onBack }) {
           <h3 className="text-lg font-semibold text-blue-700 mb-2">👤 Kontaktinformasjon</h3>
           <div className="p-3 bg-white rounded-xl border">
             <p>Navn: {data.kontakt.navn}</p>
+            <p>Fødselsdato: {data.kontakt.fodselsdato}</p>
             <p>E-post: {data.kontakt.epost}</p>
             <p>Telefon: {data.kontakt.telefon}</p>
-            <p>Selskap: {data.kontakt.selskap}</p>
-            <p>Fødselsdato: {data.kontakt.fodselsdato}</p>
+            <p>Nåværende Selskap: {data.kontakt.selskap}</p>
             <p>Antall skader siste tre år: {data.kontakt.skader}</p>
           </div>
         </div>
