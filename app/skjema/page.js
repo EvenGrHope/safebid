@@ -2546,7 +2546,7 @@ function LivsForsikring({ data, onNext, onBack }) {
 
   const handleNext = () => {
     if (!localData.navn || !localData.fodselsdato) {
-      alert("Fyll ut navn og fødselsdato før du går videre.");
+      alert("Vennligst fyll ut navn og fødselsdato før du går videre.");
       return;
     }
     onNext(localData);
@@ -2554,26 +2554,50 @@ function LivsForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Livsforsikring</h2>
-      <div className="bg-gray-50 p-6 rounded-2xl border space-y-6">
-        <input
-          type="text"
-          placeholder="Navn"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.navn}
-          onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
-        />
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Livsforsikring
+      </h2>
 
-        <input
-          type="date"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.fodselsdato}
-          onChange={(e) => setLocalData({ ...localData, fodselsdato: e.target.value })}
-        />
-
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        {/* Navn */}
         <div>
-          <label className="block mb-2 text-gray-700 font-medium">
-            Ønsket utbetaling: {localData.utbetaling.toLocaleString("no-NO")} kr
+          <label className="block mb-2 font-medium text-gray-800">
+            Navn på personen som skal forsikres{" "}
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Ola Nordmann"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn}
+            onChange={(e) =>
+              setLocalData({ ...localData, navn: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato}
+            onChange={(e) =>
+              setLocalData({ ...localData, fodselsdato: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Ønsket utbetaling */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket utbetaling:{" "}
+            <span className="font-semibold">
+              {localData.utbetaling.toLocaleString("no-NO")} kr
+            </span>
           </label>
           <input
             type="range"
@@ -2582,20 +2606,39 @@ function LivsForsikring({ data, onNext, onBack }) {
             step="50000"
             value={localData.utbetaling}
             onChange={(e) =>
-              setLocalData({ ...localData, utbetaling: parseInt(e.target.value) })
+              setLocalData({
+                ...localData,
+                utbetaling: parseInt(e.target.value),
+              })
             }
             className="w-full accent-blue-600"
           />
+          <div className="flex justify-between text-sm text-gray-500">
+            <span>300 000 kr</span>
+            <span>6 000 000 kr</span>
+          </div>
         </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- Kritisk sykdom ---
 function KritiskSykdom({ data, onNext, onBack }) {
@@ -2607,7 +2650,7 @@ function KritiskSykdom({ data, onNext, onBack }) {
 
   const handleNext = () => {
     if (!localData.navn || !localData.fodselsdato) {
-      alert("Fyll ut navn og fødselsdato før du går videre.");
+      alert("Vennligst fyll ut navn og fødselsdato før du går videre.");
       return;
     }
     onNext(localData);
@@ -2615,26 +2658,50 @@ function KritiskSykdom({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Kritisk sykdom</h2>
-      <div className="bg-gray-50 p-6 rounded-2xl border space-y-6">
-        <input
-          type="text"
-          placeholder="Navn"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.navn}
-          onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
-        />
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Kritisk sykdom
+      </h2>
 
-        <input
-          type="date"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.fodselsdato}
-          onChange={(e) => setLocalData({ ...localData, fodselsdato: e.target.value })}
-        />
-
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        {/* Navn */}
         <div>
-          <label className="block mb-2 text-gray-700 font-medium">
-            Ønsket utbetaling: {localData.utbetaling.toLocaleString("no-NO")} kr
+          <label className="block mb-2 font-medium text-gray-800">
+            Navn på personen som skal forsikres{" "}
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Kari Nordmann"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn}
+            onChange={(e) =>
+              setLocalData({ ...localData, navn: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato}
+            onChange={(e) =>
+              setLocalData({ ...localData, fodselsdato: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Utbetaling */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket utbetaling:{" "}
+            <span className="font-semibold">
+              {localData.utbetaling.toLocaleString("no-NO")} kr
+            </span>
           </label>
           <input
             type="range"
@@ -2643,20 +2710,39 @@ function KritiskSykdom({ data, onNext, onBack }) {
             step="50000"
             value={localData.utbetaling}
             onChange={(e) =>
-              setLocalData({ ...localData, utbetaling: parseInt(e.target.value) })
+              setLocalData({
+                ...localData,
+                utbetaling: parseInt(e.target.value),
+              })
             }
             className="w-full accent-blue-600"
           />
+          <div className="flex justify-between text-sm text-gray-500">
+            <span>300 000 kr</span>
+            <span>6 000 000 kr</span>
+          </div>
         </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- Uføreforsikring ---
 function UforeForsikring({ data, onNext, onBack }) {
@@ -2669,7 +2755,7 @@ function UforeForsikring({ data, onNext, onBack }) {
 
   const handleNext = () => {
     if (!localData.navn || !localData.fodselsdato) {
-      alert("Fyll ut navn og fødselsdato før du går videre.");
+      alert("Vennligst fyll ut navn og fødselsdato før du går videre.");
       return;
     }
     onNext(localData);
@@ -2677,26 +2763,50 @@ function UforeForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Uføreforsikring</h2>
-      <div className="bg-gray-50 p-6 rounded-2xl border space-y-6">
-        <input
-          type="text"
-          placeholder="Navn"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.navn}
-          onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
-        />
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Uføreforsikring
+      </h2>
 
-        <input
-          type="date"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.fodselsdato}
-          onChange={(e) => setLocalData({ ...localData, fodselsdato: e.target.value })}
-        />
-
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        {/* Navn */}
         <div>
-          <label className="block mb-2 text-gray-700 font-medium">
-            Månedlig utbetaling: {localData.manedlig.toLocaleString("no-NO")} kr
+          <label className="block mb-2 font-medium text-gray-800">
+            Navn på personen som skal forsikres{" "}
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Kari Nordmann"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn}
+            onChange={(e) =>
+              setLocalData({ ...localData, navn: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato}
+            onChange={(e) =>
+              setLocalData({ ...localData, fodselsdato: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Månedlig utbetaling */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Månedlig utbetaling:{" "}
+            <span className="font-semibold">
+              {localData.manedlig.toLocaleString("no-NO")} kr
+            </span>
           </label>
           <input
             type="range"
@@ -2705,15 +2815,26 @@ function UforeForsikring({ data, onNext, onBack }) {
             step="1000"
             value={localData.manedlig}
             onChange={(e) =>
-              setLocalData({ ...localData, manedlig: parseInt(e.target.value) })
+              setLocalData({
+                ...localData,
+                manedlig: parseInt(e.target.value),
+              })
             }
             className="w-full accent-blue-600"
           />
+          <div className="flex justify-between text-sm text-gray-500">
+            <span>5 000 kr</span>
+            <span>50 000 kr</span>
+          </div>
         </div>
 
+        {/* Engangsutbetaling */}
         <div>
-          <label className="block mb-2 text-gray-700 font-medium">
-            Engangsutbetaling: {localData.engangs.toLocaleString("no-NO")} kr
+          <label className="block mb-2 font-medium text-gray-800">
+            Engangsutbetaling:{" "}
+            <span className="font-semibold">
+              {localData.engangs.toLocaleString("no-NO")} kr
+            </span>
           </label>
           <input
             type="range"
@@ -2722,16 +2843,34 @@ function UforeForsikring({ data, onNext, onBack }) {
             step="50000"
             value={localData.engangs}
             onChange={(e) =>
-              setLocalData({ ...localData, engangs: parseInt(e.target.value) })
+              setLocalData({
+                ...localData,
+                engangs: parseInt(e.target.value),
+              })
             }
             className="w-full accent-blue-600"
           />
+          <div className="flex justify-between text-sm text-gray-500">
+            <span>300 000 kr</span>
+            <span>6 000 000 kr</span>
+          </div>
         </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
@@ -2747,7 +2886,7 @@ function BarneForsikring({ data, onNext, onBack }) {
 
   const handleNext = () => {
     if (!localData.navn || !localData.fodselsdato || !localData.dekning) {
-      alert("Fyll ut alle felt før du går videre.");
+      alert("Vennligst fyll ut alle felt før du går videre.");
       return;
     }
     onNext(localData);
@@ -2755,42 +2894,81 @@ function BarneForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Barneforsikring</h2>
-      <div className="bg-gray-50 p-6 rounded-2xl border space-y-6">
-        <input
-          type="text"
-          placeholder="Navn"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.navn}
-          onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
-        />
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Barneforsikring
+      </h2>
 
-        <input
-          type="date"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.fodselsdato}
-          onChange={(e) => setLocalData({ ...localData, fodselsdato: e.target.value })}
-        />
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        {/* Navn */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Barnets navn <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Emma Hansen"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn}
+            onChange={(e) =>
+              setLocalData({ ...localData, navn: e.target.value })
+            }
+          />
+        </div>
 
-        <select
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.dekning}
-          onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
-        >
-          <option value="">Velg dekning</option>
-          <option value="basis">Basis</option>
-          <option value="ekstra">Ekstra</option>
-          <option value="topp">Topp</option>
-        </select>
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato}
+            onChange={(e) =>
+              setLocalData({ ...localData, fodselsdato: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Dekning */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket dekning <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.dekning}
+            onChange={(e) =>
+              setLocalData({ ...localData, dekning: e.target.value })
+            }
+          >
+            <option value="">Velg dekning</option>
+            <option value="basis">Basis</option>
+            <option value="ekstra">Ekstra</option>
+            <option value="topp">Topp</option>
+          </select>
+        </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- Helseforsikring ---
 function HelseForsikring({ data, onNext, onBack }) {
@@ -2802,7 +2980,7 @@ function HelseForsikring({ data, onNext, onBack }) {
 
   const handleNext = () => {
     if (!localData.navn || !localData.fodselsdato || !localData.dekning) {
-      alert("Fyll ut alle felt før du går videre.");
+      alert("Vennligst fyll ut alle felt før du går videre.");
       return;
     }
     onNext(localData);
@@ -2810,42 +2988,82 @@ function HelseForsikring({ data, onNext, onBack }) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Helseforsikring</h2>
-      <div className="bg-gray-50 p-6 rounded-2xl border space-y-6">
-        <input
-          type="text"
-          placeholder="Navn"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.navn}
-          onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
-        />
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Helseforsikring
+      </h2>
 
-        <input
-          type="date"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.fodselsdato}
-          onChange={(e) => setLocalData({ ...localData, fodselsdato: e.target.value })}
-        />
+      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
+        {/* Navn */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Navn på personen som skal forsikres{" "}
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Ola Nordmann"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn}
+            onChange={(e) =>
+              setLocalData({ ...localData, navn: e.target.value })
+            }
+          />
+        </div>
 
-        <select
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.dekning}
-          onChange={(e) => setLocalData({ ...localData, dekning: e.target.value })}
-        >
-          <option value="">Velg dekning</option>
-          <option value="basis">Basis</option>
-          <option value="ekstra">Ekstra</option>
-          <option value="topp">Topp</option>
-        </select>
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato}
+            onChange={(e) =>
+              setLocalData({ ...localData, fodselsdato: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Dekning */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Ønsket dekning <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.dekning}
+            onChange={(e) =>
+              setLocalData({ ...localData, dekning: e.target.value })
+            }
+          >
+            <option value="">Velg dekning</option>
+            <option value="basis">Basis</option>
+            <option value="ekstra">Ekstra</option>
+            <option value="topp">Topp</option>
+          </select>
+        </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- Ulykkesforsikring ---
 function UlykkeForsikring({ data, onNext, onBack }) {
@@ -2890,7 +3108,7 @@ function UlykkeForsikring({ data, onNext, onBack }) {
         {/* Navn */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Navn på personen som skal forsikres{" "}
+            Navn{" "}
             <span className="text-red-500">*</span>
           </label>
           <input
