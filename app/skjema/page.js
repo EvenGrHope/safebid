@@ -2562,7 +2562,7 @@ function LivsForsikring({ data, onNext, onBack }) {
         {/* Navn */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Navn på personen som skal forsikres{" "}
+            Navn{" "}
             <span className="text-red-500">*</span>
           </label>
           <input
@@ -2666,7 +2666,7 @@ function KritiskSykdom({ data, onNext, onBack }) {
         {/* Navn */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Navn på personen som skal forsikres{" "}
+            Navn{" "}
             <span className="text-red-500">*</span>
           </label>
           <input
@@ -2771,7 +2771,7 @@ function UforeForsikring({ data, onNext, onBack }) {
         {/* Navn */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Navn på personen som skal forsikres{" "}
+            Navn{" "}
             <span className="text-red-500">*</span>
           </label>
           <input
@@ -2996,7 +2996,7 @@ function HelseForsikring({ data, onNext, onBack }) {
         {/* Navn */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Navn på personen som skal forsikres{" "}
+            Navn{" "}
             <span className="text-red-500">*</span>
           </label>
           <input
