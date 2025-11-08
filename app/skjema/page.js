@@ -3307,15 +3307,23 @@ function Oppsummering({ data, onSubmit, onBack }) {
 
         {data.verdisak.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">💎 Verdisakforsikring</h3>
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              💎 Verdisakforsikring
+            </h3>
             {data.verdisak.map((v, i) => (
               <div key={i} className="p-3 bg-white rounded-xl border mb-2">
-                <p>Verdi: {Number(v.verdi).toLocaleString("no-NO")} kr</p>
+                {v.produksjonsaar && <p>Produksjonsår: {v.produksjonsaar}</p>}
+                {v.verdi && (
+                  <p>
+                    Forsikringssum: {Number(v.verdi).toLocaleString("no-NO")} kr
+                  </p>
+                )}
                 <p>Beskrivelse: {v.beskrivelse}</p>
               </div>
             ))}
           </div>
         )}
+
 
         {data.mc.length > 0 && (
           <div>
