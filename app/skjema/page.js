@@ -863,7 +863,7 @@ function BatForsikring({ data, onNext, onBack }) {
             inputMode="numeric"
             maxLength={4}
             placeholder="F.eks. 9010"
-            className="w-32 border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.postnummer}
             onChange={(e) => {
               const digitsOnly = e.target.value.replace(/[^\d]/g, "");
