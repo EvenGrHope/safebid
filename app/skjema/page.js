@@ -140,6 +140,30 @@ function InnboForsikring({ data, onNext, onBack }) {
     onNext(localData);
   };
 
+  const handleSumChange = (e) => {
+    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+    setLocalData({
+      ...localData,
+      forsikringssum: digitsOnly,
+      forsikringssumDisplay: digitsOnly,
+    });
+  };
+
+  const handleSumBlur = () => {
+    if (localData.forsikringssum) {
+      setLocalData({
+        ...localData,
+        forsikringssumDisplay:
+          Number(localData.forsikringssum).toLocaleString("no-NO") + " kr",
+      });
+    } else {
+      setLocalData({
+        ...localData,
+        forsikringssumDisplay: "",
+      });
+    }
+  };
+
   return (
     <div className="space-y-8">
       <h2 className="text-2xl font-bold text-blue-700 text-center">
@@ -193,31 +217,8 @@ function InnboForsikring({ data, onNext, onBack }) {
             placeholder="F.eks. 1 000 000 kr"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.forsikringssumDisplay || ""}
-            onChange={(e) => {
-              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-              setLocalData({
-                ...localData,
-                forsikringssum: digitsOnly,
-                forsikringssumDisplay: digitsOnly
-                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
-                  : "",
-              });
-            }}
-            onFocus={(e) => {
-              if (localData.forsikringssum) {
-                e.target.value = localData.forsikringssum;
-              }
-            }}
-            onBlur={() => {
-              if (localData.forsikringssum) {
-                setLocalData({
-                  ...localData,
-                  forsikringssumDisplay:
-                    Number(localData.forsikringssum).toLocaleString("no-NO") +
-                    " kr",
-                });
-              }
-            }}
+            onChange={handleSumChange}
+            onBlur={handleSumBlur}
           />
         </div>
 
@@ -295,6 +296,7 @@ function InnboForsikring({ data, onNext, onBack }) {
     </div>
   );
 }
+
 
 
 // --- ReiseForsikring ---
