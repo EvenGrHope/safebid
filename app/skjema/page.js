@@ -1624,46 +1624,118 @@ function HytteForsikring({ data, onNext, onBack }) {
 function VerdisakForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
     verdi: data.verdi || "",
+    verdiDisplay: data.verdi
+      ? Number(data.verdi).toLocaleString("no-NO") + " kr"
+      : "",
     beskrivelse: data.beskrivelse || "",
+    produksjonsaar: data.produksjonsaar || "",
   });
 
   const handleNext = () => {
     if (!localData.verdi || !localData.beskrivelse) {
-      alert("Vennligst fyll ut både verdi og beskrivelse før du går videre.");
+      alert("Vennligst fyll ut verdi og beskrivelse før du går videre.");
       return;
     }
     onNext(localData);
   };
 
+  // Håndtering av forsikringssum med tusenskiller
+  const handleValueChange = (e) => {
+    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+    setLocalData({
+      ...localData,
+      verdi: digitsOnly,
+      verdiDisplay: digitsOnly,
+    });
+  };
+
+  const handleValueBlur = () => {
+    if (localData.verdi) {
+      setLocalData({
+        ...localData,
+        verdiDisplay:
+          Number(localData.verdi).toLocaleString("no-NO") + " kr",
+      });
+    } else {
+      setLocalData({ ...localData, verdiDisplay: "" });
+    }
+  };
+
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Verdisakforsikring</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Verdisakforsikring
+      </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        <input
-          type="number"
-          placeholder="Verdi (f.eks. 50 000)"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.verdi}
-          onChange={(e) => setLocalData({ ...localData, verdi: e.target.value })}
-        />
+        {/* Forsikringssum */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Forsikringssum <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            placeholder="F.eks. 50 000 kr"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.verdiDisplay || ""}
+            onChange={handleValueChange}
+            onBlur={handleValueBlur}
+          />
+        </div>
 
-        <textarea
-          placeholder="Beskrivelse av objektet (f.eks. Rolex Submariner, gull, 2022-modell)"
-          className="w-full border rounded-lg px-4 py-3"
-          rows="3"
-          value={localData.beskrivelse}
-          onChange={(e) => setLocalData({ ...localData, beskrivelse: e.target.value })}
-        />
+        {/* Produksjonsår */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Produksjonsår
+          </label>
+          <input
+            type="number"
+            placeholder="F.eks. 2022"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.produksjonsaar || ""}
+            onChange={(e) =>
+              setLocalData({ ...localData, produksjonsaar: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Beskrivelse */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Beskrivelse <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            placeholder="Beskrivelse av objektet (f.eks. Rolex Submariner, gull, 2022-modell)"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            rows="3"
+            value={localData.beskrivelse}
+            onChange={(e) =>
+              setLocalData({ ...localData, beskrivelse: e.target.value })
+            }
+          />
+        </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- Dyreforsikring ---
 function DyreForsikring({ data, onNext, onBack }) {
