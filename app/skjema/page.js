@@ -4064,7 +4064,7 @@ function SkjemaContent() {
   };
 
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
-  
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -4131,7 +4131,7 @@ function SkjemaContent() {
         {currentStep.type === "helse" && <HelseForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
         {currentStep.type === "ulykke" && <UlykkeForsikring data={getStepData()} onNext={handleNext} onBack={handleBack} />}
         {currentStep.type === "kontakt" && <KontaktInfo data={getStepData()} onNext={handleNext} onBack={handleBack} />}
-        {currentStep.type === "oppsummering" && <Oppsummering data={formData} onSubmit={handleSubmit} onBack={handleBack} />}
+        {currentStep.type === "oppsummering" && <Oppsummering data={formData} onSubmit={handleSubmit} onBack={handleBack} loading={loading} />}
       </div>
     </main>
   );
