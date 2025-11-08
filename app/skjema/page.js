@@ -3270,6 +3270,9 @@ function Oppsummering({ data, onSubmit, onBack }) {
             <p>Navn: {data.kontakt.navn}</p>
             <p>E-post: {data.kontakt.epost}</p>
             <p>Telefon: {data.kontakt.telefon}</p>
+            <p>Selskap: {data.kontakt.selskap}</p>
+            <p>Fødselsdato: {data.kontakt.fodselsdato}</p>
+            <p>Antall skader siste tre år: {data.kontakt.skader}</p>
           </div>
         </div>
       </div>
