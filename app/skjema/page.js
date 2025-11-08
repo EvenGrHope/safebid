@@ -2726,7 +2726,7 @@ function KontaktInfo({ data, onNext, onBack }) {
               setLocalData({ ...localData, selskap: e.target.value })
             }
           >
-            <option value="">Velg ditt nåværende forsikringsselskap</option>
+            <option value="">-</option>
             <option value="Storebrand">Storebrand</option>
             <option value="IF">IF</option>
             <option value="Gjensidige">Gjensidige</option>
@@ -2748,7 +2748,7 @@ function KontaktInfo({ data, onNext, onBack }) {
               setLocalData({ ...localData, skader: e.target.value })
             }
           >
-            <option value="">Velg antall</option>
+            <option value="">-</option>
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
