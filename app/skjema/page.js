@@ -3967,7 +3967,6 @@ function Oppsummering({ data, onSubmit, onBack }) {
           )}
         </button>
       </div>
-
     </div>
   );
 }
@@ -4065,6 +4064,7 @@ function SkjemaContent() {
   };
 
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 0));
+  
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
