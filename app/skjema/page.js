@@ -3264,17 +3264,32 @@ function Oppsummering({ data, onSubmit, onBack }) {
   </div>
 )}
 
-        <div>
-          <h3 className="text-lg font-semibold text-blue-700 mb-2">👤 Kontaktinformasjon</h3>
-          <div className="p-3 bg-white rounded-xl border">
-            <p>Navn: {data.kontakt.navn}</p>
-            <p>Fødselsdato: {data.kontakt.fodselsdato}</p>
-            <p>E-post: {data.kontakt.epost}</p>
-            <p>Telefon: {data.kontakt.telefon}</p>
-            <p>Nåværende Selskap: {data.kontakt.selskap}</p>
-            <p>Antall skader siste tre år: {data.kontakt.skader}</p>
+        {data.kontakt && (
+          <div>
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              👤 Kontaktinformasjon
+            </h3>
+
+            <div className="p-3 bg-white rounded-xl border space-y-1">
+              {data.kontakt.navn && <p>Navn: {data.kontakt.navn}</p>}
+              {data.kontakt.fodselsdato && (
+                <p>
+                  Fødselsdato:{" "}
+                  {new Date(data.kontakt.fodselsdato).toLocaleDateString("no-NO")}
+                </p>
+              )}
+              {data.kontakt.epost && <p>E-post: {data.kontakt.epost}</p>}
+              {data.kontakt.telefon && <p>Telefon: {data.kontakt.telefon}</p>}
+              {data.kontakt.selskap && (
+                <p>Nåværende forsikringsselskap: {data.kontakt.selskap}</p>
+              )}
+              {data.kontakt.skader && (
+                <p>Antall skader siste tre år: {data.kontakt.skader}</p>
+              )}
+            </div>
           </div>
-        </div>
+        )}
+
       </div>
 
       <div className="flex justify-between mt-8">
