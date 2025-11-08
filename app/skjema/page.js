@@ -2846,16 +2846,40 @@ function Oppsummering({ data, onSubmit, onBack }) {
 
         {data.tilhenger.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">🚚 Tilhengerforsikring</h3>
-            {data.tilhenger.map((t, i) => (
-              <div key={i} className="p-3 bg-white rounded-xl border mb-2">
-                <p>Registreringsnummer: {t.regnr}</p>
-                <p>Verdi: {Number(t.verdi).toLocaleString("no-NO")} kr</p>
-                <p>Dekning: {t.dekning === "brann-tyveri" ? "Brann og tyveri" : "Kasko"}</p>
+            <h3 className="text-lg font-semibold text-blue-700 mb-2">
+              🚚 Tilhengerforsikring
+            </h3>
+
+            {data.tilhenger.map((t, idx) => (
+              <div
+                key={idx}
+                className="p-3 bg-white rounded-xl border mb-2 space-y-1"
+              >
+                {t.regnr && <p>Registreringsnummer: {t.regnr}</p>}
+                {t.arsmodell && <p>Årsmodell: {t.arsmodell}</p>}
+                {t.merke && <p>Merke: {t.merke}</p>}
+                {t.modell && <p>Modell: {t.modell}</p>}
+
+                {t.forsikringssum && (
+                  <p>
+                    Forsikringssum:{" "}
+                    {Number(t.forsikringssum).toLocaleString("no-NO")} kr
+                  </p>
+                )}
+
+                {t.dekning && (
+                  <p>
+                    Dekning:{" "}
+                    {t.dekning === "brann-tyveri"
+                      ? "Brann og tyveri"
+                      : t.dekning.charAt(0).toUpperCase() + t.dekning.slice(1)}
+                  </p>
+                )}
               </div>
             ))}
           </div>
         )}
+
 
         {data.hus.length > 0 && (
           <div>
