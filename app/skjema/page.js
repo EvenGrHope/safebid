@@ -1024,28 +1024,49 @@ function BatForsikring({ data, onNext, onBack }) {
 }
 
 
-// --- Elsparkesykkel ---
+// --- Elsparkesykkelforsikring ---
 function ElsparkesykkelForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
+    arsmodell: data.arsmodell || "",
     merke: data.merke || "",
     modell: data.modell || "",
-    arsmodell: data.arsmodell || "",
     understellnummer: data.understellnummer || "",
     forsikringssum: data.forsikringssum || "",
-    forsikringssumDisplay: data.forsikringssum
-      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
-      : "",
     dekning: data.dekning || "",
   });
 
+  // Lokal visningsverdi for forsikringssum (for å unngå at input låser seg)
+  const [displayValue, setDisplayValue] = useState(
+    data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : ""
+  );
+
+  // --- Funksjoner for riktig håndtering av tallfelt ---
+  const handleForsikringssumChange = (e) => {
+    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+    setLocalData({ ...localData, forsikringssum: digitsOnly });
+    setDisplayValue(digitsOnly);
+  };
+
+  const handleForsikringssumBlur = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(
+        Number(localData.forsikringssum).toLocaleString("no-NO") + " kr"
+      );
+    }
+  };
+
+  const handleForsikringssumFocus = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(localData.forsikringssum);
+    }
+  };
+
+  // --- Validering ---
   const handleNext = () => {
-    if (
-      !localData.merke ||
-      !localData.modell ||
-      !localData.arsmodell ||
-      !localData.dekning
-    ) {
-      alert("Vennligst fyll ut alle påkrevde felt før du går videre.");
+    if (!localData.dekning) {
+      alert("Vennligst velg ønsket dekning før du går videre.");
       return;
     }
     onNext(localData);
@@ -1058,42 +1079,10 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
       </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        {/* Merke */}
-        <div>
-          <label className="block mb-2 font-medium text-gray-800">
-            Merke <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="F.eks. Segway, E-Way, Xiaomi"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.merke}
-            onChange={(e) =>
-              setLocalData({ ...localData, merke: e.target.value })
-            }
-          />
-        </div>
-
-        {/* Modell */}
-        <div>
-          <label className="block mb-2 font-medium text-gray-800">
-            Modell <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="F.eks. Ninebot Max G2"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.modell}
-            onChange={(e) =>
-              setLocalData({ ...localData, modell: e.target.value })
-            }
-          />
-        </div>
-
         {/* Årsmodell */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Årsmodell <span className="text-red-500">*</span>
+            Årsmodell (valgfritt)
           </label>
           <input
             type="number"
@@ -1106,60 +1095,68 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Understellnummer */}
+        {/* Merke */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Understellnummer 
+            Merke (valgfritt)
           </label>
           <input
             type="text"
-            placeholder="F.eks. SN1234567890"
+            placeholder="F.eks. Xiaomi, Ninebot, E-Way"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.understellnummer}
+            value={localData.merke}
             onChange={(e) =>
-              setLocalData({
-                ...localData,
-                understellnummer: e.target.value})
+              setLocalData({ ...localData, merke: e.target.value })
             }
           />
         </div>
 
-        {/* Forsikringssum */}
+        {/* Modell */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Forsikringssum
+            Modell (valgfritt)
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Pro 2, Z10, E600"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.modell}
+            onChange={(e) =>
+              setLocalData({ ...localData, modell: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Understellnummer */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Understellnummer (valgfritt)
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. SN123456789"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.understellnummer}
+            onChange={(e) =>
+              setLocalData({ ...localData, understellnummer: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Forsikringssum – med riktig kr-format */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Forsikringssum (valgfritt)
           </label>
           <input
             type="text"
             inputMode="numeric"
             placeholder="F.eks. 15 000 kr"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.forsikringssumDisplay || ""}
-            onChange={(e) => {
-              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-              setLocalData({
-                ...localData,
-                forsikringssum: digitsOnly,
-                forsikringssumDisplay: digitsOnly
-                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
-                  : "",
-              });
-            }}
-            onFocus={(e) => {
-              if (localData.forsikringssum) {
-                e.target.value = localData.forsikringssum;
-              }
-            }}
-            onBlur={() => {
-              if (localData.forsikringssum) {
-                setLocalData({
-                  ...localData,
-                  forsikringssumDisplay:
-                    Number(localData.forsikringssum).toLocaleString("no-NO") +
-                    " kr",
-                });
-              }
-            }}
+            value={displayValue}
+            onChange={handleForsikringssumChange}
+            onFocus={handleForsikringssumFocus}
+            onBlur={handleForsikringssumBlur}
           />
         </div>
 
@@ -1201,6 +1198,7 @@ function ElsparkesykkelForsikring({ data, onNext, onBack }) {
     </div>
   );
 }
+
 
 
 // --- MC, ATV og Snøscooter ---
@@ -1728,12 +1726,38 @@ function TilhengerForsikring({ data, onNext, onBack }) {
     merke: data.merke || "",
     modell: data.modell || "",
     forsikringssum: data.forsikringssum || "",
-    forsikringssumDisplay: data.forsikringssum
-      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
-      : "",
     dekning: data.dekning || "",
   });
 
+  // Egen visningsverdi for kr-feltet
+  const [displayValue, setDisplayValue] = useState(
+    data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : ""
+  );
+
+  // --- Funksjoner for korrekt tallhåndtering ---
+  const handleForsikringssumChange = (e) => {
+    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+    setLocalData({ ...localData, forsikringssum: digitsOnly });
+    setDisplayValue(digitsOnly);
+  };
+
+  const handleForsikringssumBlur = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(
+        Number(localData.forsikringssum).toLocaleString("no-NO") + " kr"
+      );
+    }
+  };
+
+  const handleForsikringssumFocus = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(localData.forsikringssum);
+    }
+  };
+
+  // --- Validering ---
   const handleNext = () => {
     if (!localData.forsikringssum || !localData.dekning) {
       alert("Vennligst fyll ut forsikringssum og ønsket dekning før du går videre.");
@@ -1749,30 +1773,30 @@ function TilhengerForsikring({ data, onNext, onBack }) {
       </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        {/* Reg.nr (valgfritt) */}
+        {/* Registreringsnummer */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Registreringsnummer 
+            Registreringsnummer (valgfritt)
           </label>
           <input
             type="text"
             placeholder="F.eks. AB1234"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            className="w-full border rounded-lg px-4 py-3 uppercase placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.regnr}
             onChange={(e) =>
-              setLocalData({ ...localData, regnr: e.target.value })
+              setLocalData({ ...localData, regnr: e.target.value.toUpperCase() })
             }
           />
         </div>
 
-        {/* Årsmodell (valgfritt) */}
+        {/* Årsmodell */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Årsmodell
+            Årsmodell (valgfritt)
           </label>
           <input
             type="number"
-            placeholder="F.eks. 2019"
+            placeholder="F.eks. 2020"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.arsmodell}
             onChange={(e) =>
@@ -1781,10 +1805,10 @@ function TilhengerForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Merke (valgfritt) */}
+        {/* Merke */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Merke
+            Merke (valgfritt)
           </label>
           <input
             type="text"
@@ -1797,14 +1821,14 @@ function TilhengerForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Modell (valgfritt) */}
+        {/* Modell */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Modell
+            Modell (valgfritt)
           </label>
           <input
             type="text"
-            placeholder="F.eks. 6051, 5300S"
+            placeholder="F.eks. 6251, 5310, Proline 750"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.modell}
             onChange={(e) =>
@@ -1813,7 +1837,7 @@ function TilhengerForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Forsikringssum (påkrevd) */}
+        {/* Forsikringssum – med korrekt format og backspace-støtte */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Forsikringssum <span className="text-red-500">*</span>
@@ -1823,36 +1847,14 @@ function TilhengerForsikring({ data, onNext, onBack }) {
             inputMode="numeric"
             placeholder="F.eks. 50 000 kr"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.forsikringssumDisplay || ""}
-            onChange={(e) => {
-              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-              setLocalData({
-                ...localData,
-                forsikringssum: digitsOnly,
-                forsikringssumDisplay: digitsOnly
-                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
-                  : "",
-              });
-            }}
-            onFocus={(e) => {
-              if (localData.forsikringssum) {
-                e.target.value = localData.forsikringssum;
-              }
-            }}
-            onBlur={() => {
-              if (localData.forsikringssum) {
-                setLocalData({
-                  ...localData,
-                  forsikringssumDisplay:
-                    Number(localData.forsikringssum).toLocaleString("no-NO") +
-                    " kr",
-                });
-              }
-            }}
+            value={displayValue}
+            onChange={handleForsikringssumChange}
+            onFocus={handleForsikringssumFocus}
+            onBlur={handleForsikringssumBlur}
           />
         </div>
 
-        {/* Dekning (påkrevd) */}
+        {/* Dekning */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Ønsket dekning <span className="text-red-500">*</span>
@@ -1871,7 +1873,7 @@ function TilhengerForsikring({ data, onNext, onBack }) {
         </div>
       </div>
 
-      {/* Navigasjonsknapper */}
+      {/* Navigasjon */}
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
@@ -1889,6 +1891,7 @@ function TilhengerForsikring({ data, onNext, onBack }) {
     </div>
   );
 }
+
 
 
 // --- Traktor og arbeidsmaskin ---
@@ -2074,12 +2077,38 @@ function VeteranForsikring({ data, onNext, onBack }) {
     merke: data.merke || "",
     modell: data.modell || "",
     forsikringssum: data.forsikringssum || "",
-    forsikringssumDisplay: data.forsikringssum
-      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
-      : "",
     dekning: data.dekning || "",
   });
 
+  // Egen state for visning av formaterte tall (unngår input-låsing)
+  const [displayValue, setDisplayValue] = useState(
+    data.forsikringssum
+      ? Number(data.forsikringssum).toLocaleString("no-NO") + " kr"
+      : ""
+  );
+
+  // --- Funksjoner for kr-håndtering ---
+  const handleForsikringssumChange = (e) => {
+    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+    setLocalData({ ...localData, forsikringssum: digitsOnly });
+    setDisplayValue(digitsOnly);
+  };
+
+  const handleForsikringssumBlur = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(
+        Number(localData.forsikringssum).toLocaleString("no-NO") + " kr"
+      );
+    }
+  };
+
+  const handleForsikringssumFocus = () => {
+    if (localData.forsikringssum) {
+      setDisplayValue(localData.forsikringssum);
+    }
+  };
+
+  // --- Validering ---
   const handleNext = () => {
     if (!localData.forsikringssum || !localData.dekning) {
       alert("Vennligst fyll ut forsikringssum og ønsket dekning før du går videre.");
@@ -2095,26 +2124,26 @@ function VeteranForsikring({ data, onNext, onBack }) {
       </h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        {/* Reg.nr (valgfritt) */}
+        {/* Registreringsnummer */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Registreringsnummer
+            Registreringsnummer (valgfritt)
           </label>
           <input
             type="text"
             placeholder="F.eks. AB12345"
-            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            className="w-full border rounded-lg px-4 py-3 uppercase placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.regnr}
             onChange={(e) =>
-              setLocalData({ ...localData, regnr: e.target.value })
+              setLocalData({ ...localData, regnr: e.target.value.toUpperCase() })
             }
           />
         </div>
 
-        {/* Årsmodell (valgfritt) */}
+        {/* Årsmodell */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Årsmodell
+            Årsmodell (valgfritt)
           </label>
           <input
             type="number"
@@ -2127,10 +2156,10 @@ function VeteranForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Merke (valgfritt) */}
+        {/* Merke */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Merke
+            Merke (valgfritt)
           </label>
           <input
             type="text"
@@ -2143,10 +2172,10 @@ function VeteranForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Modell (valgfritt) */}
+        {/* Modell */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
-            Modell
+            Modell (valgfritt)
           </label>
           <input
             type="text"
@@ -2159,7 +2188,7 @@ function VeteranForsikring({ data, onNext, onBack }) {
           />
         </div>
 
-        {/* Forsikringssum (påkrevd) */}
+        {/* Forsikringssum – med riktig format og backspace-støtte */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Forsikringssum <span className="text-red-500">*</span>
@@ -2169,36 +2198,14 @@ function VeteranForsikring({ data, onNext, onBack }) {
             inputMode="numeric"
             placeholder="F.eks. 150 000 kr"
             className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
-            value={localData.forsikringssumDisplay || ""}
-            onChange={(e) => {
-              const digitsOnly = e.target.value.replace(/[^\d]/g, "");
-              setLocalData({
-                ...localData,
-                forsikringssum: digitsOnly,
-                forsikringssumDisplay: digitsOnly
-                  ? Number(digitsOnly).toLocaleString("no-NO") + " kr"
-                  : "",
-              });
-            }}
-            onFocus={(e) => {
-              if (localData.forsikringssum) {
-                e.target.value = localData.forsikringssum;
-              }
-            }}
-            onBlur={() => {
-              if (localData.forsikringssum) {
-                setLocalData({
-                  ...localData,
-                  forsikringssumDisplay:
-                    Number(localData.forsikringssum).toLocaleString("no-NO") +
-                    " kr",
-                });
-              }
-            }}
+            value={displayValue}
+            onChange={handleForsikringssumChange}
+            onFocus={handleForsikringssumFocus}
+            onBlur={handleForsikringssumBlur}
           />
         </div>
 
-        {/* Dekning (påkrevd) */}
+        {/* Dekning */}
         <div>
           <label className="block mb-2 font-medium text-gray-800">
             Ønsket dekning <span className="text-red-500">*</span>
@@ -2217,7 +2224,7 @@ function VeteranForsikring({ data, onNext, onBack }) {
         </div>
       </div>
 
-      {/* Navigasjonsknapper */}
+      {/* Navigasjon */}
       <div className="flex justify-between mt-8">
         <button
           onClick={onBack}
@@ -2235,6 +2242,7 @@ function VeteranForsikring({ data, onNext, onBack }) {
     </div>
   );
 }
+
 
 
 // --- Livsforsikring ---
