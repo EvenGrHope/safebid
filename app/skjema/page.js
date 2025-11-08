@@ -2850,32 +2850,86 @@ function HelseForsikring({ data, onNext, onBack }) {
 // --- Ulykkesforsikring ---
 function UlykkeForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
+    navn: data.navn || "",
+    fodselsdato: data.fodselsdato || "",
     dod: data.dod || "",
     invaliditet: data.invaliditet || "",
   });
 
+  const options = [
+    500000,
+    1000000,
+    1500000,
+    2000000,
+    2500000,
+    3000000,
+    4000000,
+    5000000,
+  ];
+
   const handleNext = () => {
-    if (!localData.dod || !localData.invaliditet) {
-      alert("Velg ønsket forsikringssum for begge punktene.");
+    if (
+      !localData.navn ||
+      !localData.fodselsdato ||
+      !localData.dod ||
+      !localData.invaliditet
+    ) {
+      alert("Vennligst fyll ut navn, fødselsdato og velg forsikringssummer før du går videre.");
       return;
     }
     onNext(localData);
   };
 
-  const options = [500000, 1000000, 1500000, 2000000, 2500000, 3000000, 4000000, 5000000];
-
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-blue-700 text-center">Ulykkesforsikring</h2>
+      <h2 className="text-2xl font-bold text-blue-700 text-center">
+        Ulykkesforsikring
+      </h2>
+
       <div className="bg-gray-50 p-6 rounded-2xl border space-y-6">
+        {/* Navn */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Navn på personen som skal forsikres{" "}
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Ola Nordmann"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn}
+            onChange={(e) =>
+              setLocalData({ ...localData, navn: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato}
+            onChange={(e) =>
+              setLocalData({ ...localData, fodselsdato: e.target.value })
+            }
+          />
+        </div>
+
+        {/* Forsikringssum ved død */}
         <div>
           <label className="block mb-2 font-medium text-gray-700">
-            Forsikringssum ved død
+            Forsikringssum ved død <span className="text-red-500">*</span>
           </label>
           <select
-            className="w-full border rounded-lg px-4 py-3"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
             value={localData.dod}
-            onChange={(e) => setLocalData({ ...localData, dod: e.target.value })}
+            onChange={(e) =>
+              setLocalData({ ...localData, dod: e.target.value })
+            }
           >
             <option value="">Velg sum</option>
             {options.map((o) => (
@@ -2886,12 +2940,14 @@ function UlykkeForsikring({ data, onNext, onBack }) {
           </select>
         </div>
 
+        {/* Forsikringssum ved invaliditet */}
         <div>
           <label className="block mb-2 font-medium text-gray-700">
-            Forsikringssum ved invaliditet
+            Forsikringssum ved invaliditet{" "}
+            <span className="text-red-500">*</span>
           </label>
           <select
-            className="w-full border rounded-lg px-4 py-3"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
             value={localData.invaliditet}
             onChange={(e) =>
               setLocalData({ ...localData, invaliditet: e.target.value })
@@ -2907,13 +2963,25 @@ function UlykkeForsikring({ data, onNext, onBack }) {
         </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 
 // --- Kontaktinformasjon ---
@@ -3308,9 +3376,21 @@ function Oppsummering({ data, onSubmit, onBack }) {
           <div>
             <h3 className="text-lg font-semibold text-blue-700 mb-2">⚠️ Ulykkesforsikring</h3>
             {data.ulykke.map((u, i) => (
-              <div key={i} className="p-3 bg-white rounded-xl border mb-2">
-                <p>Forsikringssum ved død: {Number(u.dod).toLocaleString("no-NO")} kr</p>
-                <p>Forsikringssum ved invaliditet: {Number(u.invaliditet).toLocaleString("no-NO")} kr</p>
+              <div key={i} className="p-3 bg-white rounded-xl border mb-2 space-y-1">
+                {u.navn && <p>Navn: {u.navn}</p>}
+                {u.fodselsdato && <p>Fødselsdato: {u.fodselsdato}</p>}
+                {u.dod && (
+                  <p>
+                    Forsikringssum ved død:{" "}
+                    {Number(u.dod).toLocaleString("no-NO")} kr
+                  </p>
+                )}
+                {u.invaliditet && (
+                  <p>
+                    Forsikringssum ved invaliditet:{" "}
+                    {Number(u.invaliditet).toLocaleString("no-NO")} kr
+                  </p>
+                )}
               </div>
             ))}
           </div>
