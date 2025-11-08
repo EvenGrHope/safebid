@@ -1742,13 +1742,14 @@ function DyreForsikring({ data, onNext, onBack }) {
   const [localData, setLocalData] = useState({
     navn: data.navn || "",
     fodselsdato: data.fodselsdato || "",
+    dyrtype: data.dyrtype || "", // Nytt felt
     dod: data.dod || 10000,
     veterinar: data.veterinar || 10000,
   });
 
   const handleNext = () => {
-    if (!localData.navn || !localData.fodselsdato) {
-      alert("Fyll ut navn og fødselsdato før du går videre.");
+    if (!localData.dyrtype || !localData.navn || !localData.fodselsdato) {
+      alert("Vennligst fyll ut dyretype, navn og fødselsdato før du går videre.");
       return;
     }
     onNext(localData);
@@ -1759,24 +1760,56 @@ function DyreForsikring({ data, onNext, onBack }) {
       <h2 className="text-2xl font-bold text-blue-700 text-center">Dyreforsikring</h2>
 
       <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 space-y-6">
-        <input
-          type="text"
-          placeholder="Dyrets navn (f.eks. Luna)"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.navn}
-          onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
-        />
+        {/* Dyretype */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Hvilket dyr gjelder forsikringen? <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.dyrtype}
+            onChange={(e) => setLocalData({ ...localData, dyrtype: e.target.value })}
+          >
+            <option value="">Velg type dyr</option>
+            <option value="Hund">Hund</option>
+            <option value="Katt">Katt</option>
+          </select>
+        </div>
 
-        <input
-          type="date"
-          className="w-full border rounded-lg px-4 py-3"
-          value={localData.fodselsdato}
-          onChange={(e) => setLocalData({ ...localData, fodselsdato: e.target.value })}
-        />
+        {/* Navn */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Dyrets navn <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            placeholder="F.eks. Luna"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            value={localData.navn}
+            onChange={(e) => setLocalData({ ...localData, navn: e.target.value })}
+          />
+        </div>
 
+        {/* Fødselsdato */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-800">
+            Fødselsdato <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-600"
+            value={localData.fodselsdato}
+            onChange={(e) => setLocalData({ ...localData, fodselsdato: e.target.value })}
+          />
+        </div>
+
+        {/* Utbetaling ved død */}
         <div>
           <label className="block mb-2 text-gray-700 font-medium">
-            Ønsket utbetaling ved død: {localData.dod.toLocaleString("no-NO")} kr
+            Ønsket utbetaling ved død:{" "}
+            <span className="font-semibold text-blue-700">
+              {localData.dod.toLocaleString("no-NO")} kr
+            </span>
           </label>
           <input
             type="range"
@@ -1791,9 +1824,13 @@ function DyreForsikring({ data, onNext, onBack }) {
           />
         </div>
 
+        {/* Utbetaling ved veterinærutgifter */}
         <div>
           <label className="block mb-2 text-gray-700 font-medium">
-            Ønsket utbetaling ved veterinærutgifter: {localData.veterinar.toLocaleString("no-NO")} kr
+            Ønsket utbetaling ved veterinærutgifter:{" "}
+            <span className="font-semibold text-blue-700">
+              {localData.veterinar.toLocaleString("no-NO")} kr
+            </span>
           </label>
           <input
             type="range"
@@ -1809,13 +1846,25 @@ function DyreForsikring({ data, onNext, onBack }) {
         </div>
       </div>
 
+      {/* Navigasjonsknapper */}
       <div className="flex justify-between mt-8">
-        <button onClick={onBack} className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300">Tilbake</button>
-        <button onClick={handleNext} className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800">Neste</button>
+        <button
+          onClick={onBack}
+          className="bg-gray-200 px-6 py-3 rounded-xl hover:bg-gray-300"
+        >
+          Tilbake
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-blue-700 text-white px-8 py-3 rounded-xl hover:bg-blue-800"
+        >
+          Neste
+        </button>
       </div>
     </div>
   );
 }
+
 
 // --- Mopedforsikring ---
 function MopedForsikring({ data, onNext, onBack }) {
@@ -3351,19 +3400,30 @@ function Oppsummering({ data, onSubmit, onBack }) {
           </div>
         )}
 
-        {data.dyr.length > 0 && (
-          <div>
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">🐾 Dyreforsikring</h3>
-            {data.dyr.map((d, i) => (
-              <div key={i} className="p-3 bg-white rounded-xl border mb-2">
-                <p>Navn: {d.navn}</p>
-                <p>Fødselsdato: {d.fodselsdato}</p>
-                <p>Utbetaling ved død: {Number(d.dod).toLocaleString("no-NO")} kr</p>
-                <p>Utbetaling ved veterinær: {Number(d.veterinar).toLocaleString("no-NO")} kr</p>
+            {data.dyr.length > 0 && (
+              <div>
+                <h3 className="text-lg font-semibold text-blue-700 mb-2">🐾 Dyreforsikring</h3>
+                {data.dyr.map((d, i) => (
+                  <div key={i} className="p-3 bg-white rounded-xl border mb-2 space-y-1">
+                    {d.dyrtype && <p>Dyrtype: {d.dyrtype}</p>}
+                    {d.navn && <p>Navn: {d.navn}</p>}
+                    {d.fodselsdato && <p>Fødselsdato: {d.fodselsdato}</p>}
+                    {d.dod && (
+                      <p>
+                        Utbetaling ved død:{" "}
+                        {Number(d.dod).toLocaleString("no-NO")} kr
+                      </p>
+                    )}
+                    {d.veterinar && (
+                      <p>
+                        Utbetaling ved veterinærutgifter:{" "}
+                        {Number(d.veterinar).toLocaleString("no-NO")} kr
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
+            )}
 
         {data.moped.length > 0 && (
           <div>
