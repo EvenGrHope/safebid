@@ -1637,10 +1637,10 @@ function MopedForsikring({ data, onNext, onBack }) {
           <input
             type="text"
             placeholder="F.eks. AB12345"
-            className="w-full border rounded-lg px-4 py-3 uppercase placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
+            className="w-full border rounded-lg px-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-600"
             value={localData.regnr}
             onChange={(e) =>
-              setLocalData({ ...localData, regnr: e.target.value.toUpperCase() })
+              setLocalData({ ...localData, regnr: e.target.value })
             }
           />
         </div>
