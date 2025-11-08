@@ -12,7 +12,7 @@ export default function Header() {
 
   const links = [
     { href: "/", label: "Hjem" },
-    { href: "/blogg", label: "Blogg" },
+    { href: "/blogg", label: "Guide" },
     { href: "/om-oss", label: "Om oss" },
     { href: "/kontakt", label: "Kontakt oss" },
   ];
