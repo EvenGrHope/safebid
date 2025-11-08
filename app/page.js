@@ -151,7 +151,7 @@ export default function Home() {
             Forsikringsguider
           </h2>
           <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-            Lær hvordan du får mest mulig igjen for forsikringen din – og hva som
+            Lær hvordan du får mest mulig igjen for forsikringen din, og hva som
             faktisk påvirker prisen. Våre guider hjelper deg å ta trygge og smarte valg.
           </p>
 
@@ -167,7 +167,7 @@ export default function Home() {
                 bilde: "/guide-hus.jpg",
                 tittel: "Guide til hus- og innboforsikring",
                 tekst:
-                  "Hvordan sikrer du hjemmet ditt riktig – og unngår over- eller underforsikring?",
+                  "Hvordan sikrer du hjemmet ditt riktig, og unngår over- eller underforsikring?",
               },
               {
                 bilde: "/guide-reise.jpg",
@@ -229,7 +229,7 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      
+
     </main>
   );
 }
