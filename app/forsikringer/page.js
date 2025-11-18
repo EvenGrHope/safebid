@@ -178,8 +178,10 @@ export default function ForsikringerPage() {
                         ? "1 forsikring valgt"
                         : `${totalSelected} forsikringer valgt`}
                     </p>
-                    <p className="text-sm text-gray-500 -mt-1">
-                      Samlerabatt i utvikling
+                    <p className="text-center text-sm mt-3 text-gray-700">
+                      {progress < 100
+                        ? `Samlerabatt: ${totalSelected} av 3 – legg til ${3 - totalSelected} til for maks rabatt`
+                        : "🎉 Du har full samlerabatt!"}
                     </p>
                   </div>
                 </div>
