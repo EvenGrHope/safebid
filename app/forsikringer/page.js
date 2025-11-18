@@ -151,24 +151,30 @@ export default function ForsikringerPage() {
         </div>
       </div>
 
-      {/* === MODERN STICKY FOOTER MED PROGRESS BAR === */}
+      {/* === RESPONSIVE STICKY FOOTER === */}
       {totalSelected > 0 && (
         <div className="fixed bottom-0 left-0 right-0 z-50">
-          <div className="mx-auto w-full max-w-5xl px-4">
+          <div className="mx-auto w-full max-w-5xl px-3 sm:px-4">
             <div className="
               bg-white/95 backdrop-blur-lg
               shadow-[0_-4px_20px_rgba(0,0,0,0.15)]
               border border-blue-100
               rounded-2xl
-              mb-4
-              px-6 py-4
+              mb-3
+              px-4 py-3
               animate-slide-up
             ">
-              
-              {/* Øverste rad */}
-              <div className="flex items-center justify-between gap-4">
+
+              {/* Øverste rad — 1 kolonne på mobil, 2 på desktop */}
+              <div className="
+                flex flex-col sm:flex-row
+                items-start sm:items-center
+                justify-between
+                gap-3
+              ">
+                {/* Venstre seksjon */}
                 <div className="flex items-center gap-3">
-                  <div className="bg-blue-700 text-white font-semibold rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
+                  <div className="bg-blue-700 text-white font-semibold rounded-full w-9 h-9 flex items-center justify-center shadow">
                     {totalSelected}
                   </div>
 
@@ -179,13 +185,17 @@ export default function ForsikringerPage() {
                   </p>
                 </div>
 
+                {/* Knapp — full bredde på mobil, normal på desktop */}
                 <button
                   onClick={handleGetOffer}
                   className="
                     bg-blue-700 text-white font-semibold
-                    px-6 py-3 rounded-xl
+                    sm:px-6 sm:py-3 px-4 py-2
+                    rounded-xl
                     hover:bg-blue-800
                     transition shadow-md
+                    w-full sm:w-auto
+                    text-center
                   "
                 >
                   Gå videre →
@@ -193,7 +203,7 @@ export default function ForsikringerPage() {
               </div>
 
               {/* Progress-bar */}
-              <div className="mt-4">
+              <div className="mt-3">
                 <div className="h-3 bg-blue-100 rounded-full overflow-hidden shadow-inner">
                   <div
                     className="
