@@ -172,18 +172,11 @@ export default function ForsikringerPage() {
                     {totalSelected}
                   </div>
 
-                  <div>
-                    <p className="font-semibold text-gray-900 text-base">
-                      {totalSelected === 1
-                        ? "1 forsikring valgt"
-                        : `${totalSelected} forsikringer valgt`}
-                    </p>
-                    <p className="text-center text-sm mt-3 text-gray-700">
-                      {progress < 100
-                        ? `Samlerabatt: ${totalSelected} av 3 – legg til ${3 - totalSelected} til for maks rabatt`
-                        : "🎉 Du har full samlerabatt!"}
-                    </p>
-                  </div>
+                  <p className="font-semibold text-gray-900 text-base">
+                    {totalSelected === 1
+                      ? "Forsikring valgt"
+                      : "Forsikringer valgt"}
+                  </p>
                 </div>
 
                 <button
@@ -200,7 +193,7 @@ export default function ForsikringerPage() {
               </div>
 
               {/* Progress-bar */}
-              <div className="mt-5">
+              <div className="mt-4">
                 <div className="h-3 bg-blue-100 rounded-full overflow-hidden shadow-inner">
                   <div
                     className="
@@ -212,12 +205,13 @@ export default function ForsikringerPage() {
                   ></div>
                 </div>
 
-                <p className="text-center text-sm mt-3 text-gray-700">
+                <p className="text-center text-sm mt-2 text-gray-700">
                   {progress < 100
                     ? `Samlerabatt: ${totalSelected} av 3 – legg til ${3 - totalSelected} til for maks rabatt`
                     : "🎉 Du har full samlerabatt!"}
                 </p>
               </div>
+
             </div>
           </div>
         </div>
