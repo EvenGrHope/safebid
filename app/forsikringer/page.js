@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 
 // DEFINER POPULÆRE PRODUKTER HER
-const popularProducts = ["hus", "innbo", "bil"];
+const popularProducts = ["hus", "innbo", "bil", "reise"];
 
 const groupedProducts = {
   "Bil og kjøretøy": [
