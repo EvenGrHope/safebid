@@ -151,44 +151,72 @@ export default function ForsikringerPage() {
         </div>
       </div>
 
-      {/* === STICKY FOOTER MED PROGRESS BAR === */}
+      {/* === MODERN STICKY FOOTER MED PROGRESS BAR === */}
       {totalSelected > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-blue-700 text-white shadow-lg py-3 px-6 flex flex-col items-center z-50 animate-slide-up rounded-t-2xl border-t border-blue-500">
-          <div className="w-full max-w-5xl flex justify-between items-center mx-auto">
-            <div className="flex items-center gap-3">
-              <div className="bg-white text-blue-700 font-bold rounded-full w-8 h-8 flex items-center justify-center">
-                {totalSelected}
+        <div className="fixed bottom-0 left-0 right-0 z-50">
+          <div className="mx-auto w-full max-w-5xl px-4">
+            <div className="
+              bg-white/95 backdrop-blur-lg
+              shadow-[0_-4px_20px_rgba(0,0,0,0.15)]
+              border border-blue-100
+              rounded-2xl
+              mb-4
+              px-6 py-4
+              animate-slide-up
+            ">
+              
+              {/* Øverste rad */}
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-blue-700 text-white font-semibold rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
+                    {totalSelected}
+                  </div>
+
+                  <div>
+                    <p className="font-semibold text-gray-900 text-base">
+                      {totalSelected === 1
+                        ? "1 forsikring valgt"
+                        : `${totalSelected} forsikringer valgt`}
+                    </p>
+                    <p className="text-sm text-gray-500 -mt-1">
+                      Samlerabatt i utvikling
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleGetOffer}
+                  className="
+                    bg-blue-700 text-white font-semibold
+                    px-6 py-3 rounded-xl
+                    hover:bg-blue-800
+                    transition shadow-md
+                  "
+                >
+                  Gå videre →
+                </button>
               </div>
-              <p className="font-medium text-sm sm:text-base">
-                {totalSelected === 1
-                  ? "1 forsikring valgt"
-                  : `${totalSelected} forsikringer valgt`}
-              </p>
-            </div>
 
-            <button
-              onClick={handleGetOffer}
-              className="bg-white text-blue-700 font-semibold px-6 py-2 rounded-lg hover:bg-blue-50 transition"
-            >
-              Gå videre →
-            </button>
-          </div>
+              {/* Progress-bar */}
+              <div className="mt-5">
+                <div className="h-3 bg-blue-100 rounded-full overflow-hidden shadow-inner">
+                  <div
+                    className="
+                      h-full
+                      bg-gradient-to-r from-blue-500 to-blue-400
+                      transition-all duration-700
+                    "
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
 
-          {/* Progress-bar for samlerabatt */}
-          <div className="w-full max-w-5xl mt-3">
-            <div className="h-2 bg-blue-500/40 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-yellow-400 transition-all duration-500"
-                style={{ width: `${progress}%` }}
-              ></div>
+                <p className="text-center text-sm mt-3 text-gray-700">
+                  {progress < 100
+                    ? `Samlerabatt: ${totalSelected} av 3 – legg til ${3 - totalSelected} til for maks rabatt`
+                    : "🎉 Du har full samlerabatt!"}
+                </p>
+              </div>
             </div>
-            <p className="text-center text-sm mt-2 text-blue-100">
-              {progress < 100
-                ? `Samlerabatt: ${totalSelected} av 3 valgt – legg til ${
-                    3 - totalSelected
-                  } til for maks rabatt!`
-                : "🎉 Du har full samlerabatt!"}
-            </p>
           </div>
         </div>
       )}
