@@ -151,44 +151,46 @@ export default function ForsikringerPage() {
         </div>
       </div>
 
-      {/* === SLANK STICKY FOOTER === */}
+      {/* === MODERN STICKY FOOTER MED PROGRESS BAR === */}
       {totalSelected > 0 && (
         <div className="fixed bottom-0 left-0 right-0 z-50">
-          <div className="mx-auto w-full max-w-5xl px-3">
-            <div
-              className="
-                bg-white/95 backdrop-blur-lg
-                shadow-[0_-3px_16px_rgba(0,0,0,0.12)]
-                border border-blue-100
-                rounded-xl
-                mb-2
-                px-4 py-2.5
-                animate-slide-up
-              "
-            >
-              {/* Rad */}
-              <div className="flex items-center justify-between gap-3">
-                {/* Antall + tekst */}
-                <div className="flex items-center gap-2">
-                  <div className="bg-blue-700 text-white font-semibold rounded-full w-8 h-8 flex items-center justify-center shadow">
+          <div className="mx-auto w-full max-w-5xl px-4">
+            <div className="
+              bg-white/95 backdrop-blur-lg
+              shadow-[0_-4px_20px_rgba(0,0,0,0.15)]
+              border border-blue-100
+              rounded-2xl
+              mb-4
+              px-6 py-4
+              animate-slide-up
+            ">
+              
+              {/* Øverste rad */}
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-blue-700 text-white font-semibold rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
                     {totalSelected}
                   </div>
 
-                  <p className="font-medium text-gray-900 text-sm">
-                    {totalSelected === 1
-                      ? "1 forsikring valgt"
-                      : `${totalSelected} forsikringer valgt`}
-                  </p>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-base">
+                      {totalSelected === 1
+                        ? "1 forsikring valgt"
+                        : `${totalSelected} forsikringer valgt`}
+                    </p>
+                    <p className="text-sm text-gray-500 -mt-1">
+                      Samlerabatt i utvikling
+                    </p>
+                  </div>
                 </div>
 
-                {/* Knapp */}
                 <button
                   onClick={handleGetOffer}
                   className="
                     bg-blue-700 text-white font-semibold
-                    px-4 py-1.5 rounded-lg
-                    hover:bg-blue-800 text-sm
-                    transition shadow-sm
+                    px-6 py-3 rounded-xl
+                    hover:bg-blue-800
+                    transition shadow-md
                   "
                 >
                   Gå videre →
@@ -196,19 +198,28 @@ export default function ForsikringerPage() {
               </div>
 
               {/* Progress-bar */}
-              <div className="mt-2">
-                <div className="h-2 bg-blue-100 rounded-full overflow-hidden">
+              <div className="mt-5">
+                <div className="h-3 bg-blue-100 rounded-full overflow-hidden shadow-inner">
                   <div
-                    className="h-full bg-blue-500 transition-all duration-500"
+                    className="
+                      h-full
+                      bg-gradient-to-r from-blue-500 to-blue-400
+                      transition-all duration-700
+                    "
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
+
+                <p className="text-center text-sm mt-3 text-gray-700">
+                  {progress < 100
+                    ? `Samlerabatt: ${totalSelected} av 3 – legg til ${3 - totalSelected} til for maks rabatt`
+                    : "🎉 Du har full samlerabatt!"}
+                </p>
               </div>
             </div>
           </div>
         </div>
       )}
-
 
     </main>
   );
