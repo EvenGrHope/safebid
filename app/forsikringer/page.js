@@ -20,6 +20,9 @@ import {
   Mountain,
 } from "lucide-react";
 
+// DEFINER POPULÆRE PRODUKTER HER
+const popularProducts = ["hus", "innbo", "bil"];
+
 const groupedProducts = {
   "Bil og kjøretøy": [
     { id: "bil", label: "Bilforsikring", description: "Dekker skade på egen bil og ansvar for skade på andre kjøretøy.", icon: Car },
@@ -29,24 +32,24 @@ const groupedProducts = {
     { id: "mc", label: "MC, ATV og snøscooter", description: "Dekker motorsykkel, ATV og snøscooter ved skade og ansvar.", icon: Bike },
     { id: "moped", label: "Mopedforsikring", description: "Trygghet ved ulykke, tyveri og skade på moped.", icon: Bike },
     { id: "tilhenger", label: "Tilhengerforsikring", description: "Dekker skader og ansvar ved bruk av tilhenger.", icon: Truck },
-    { id: "traktor", label: "Traktor og arbeidsmaskin", description: "Forsikring for traktor og anleggsmaskiner i drift og transport.", icon: Tractor },
+    { id: "traktor", label: "Traktor", description: "Forsikring for traktor og maskiner i drift og transport.", icon: Tractor },
     { id: "veteran", label: "Veterankjøretøy", description: "Egen forsikring for klassiske og veterankjøretøy.", icon: Car },
   ],
   "Hjem og fritid": [
     { id: "hus", label: "Husforsikring", description: "Beskytter boligen din mot brann, vannskader og naturulykker.", icon: Home },
-    { id: "hytte", label: "Hytteforsikring", description: "Trygghet for fritidsboligen din, både ved skade og tyveri.", icon: Mountain },
+    { id: "hytte", label: "Hytteforsikring", description: "Trygghet for fritidsboligen din ved skade og tyveri.", icon: Mountain },
     { id: "innbo", label: "Innboforsikring", description: "Dekker tap eller skade på eiendeler i hjemmet ditt.", icon: Building2 },
     { id: "reise", label: "Reiseforsikring", description: "Trygghet ved sykdom, uhell eller tap på reise.", icon: Plane },
-    { id: "verdisak", label: "Verdisakforsikring", description: "Forsikring av verdifulle eiendeler som smykker, klokker og kunst.", icon: Gem },
+    { id: "verdisak", label: "Verdisakforsikring", description: "Forsikring av smykker, klokker og kunst.", icon: Gem },
     { id: "dyr", label: "Dyreforsikring", description: "Dekker veterinærutgifter eller tap av kjæledyr.", icon: Dog },
   ],
   "Personforsikring": [
-    { id: "liv", label: "Livsforsikring", description: "Sikrer dine nærmeste økonomisk trygghet hvis det verste skulle skje.", icon: HeartPulse },
-    { id: "uføre", label: "Uføreforsikring", description: "Gir deg økonomisk sikkerhet ved langvarig sykdom eller skade.", icon: Briefcase },
+    { id: "liv", label: "Livsforsikring", description: "Økonomisk trygghet for dine nærmeste.", icon: HeartPulse },
+    { id: "uføre", label: "Uføreforsikring", description: "Gir sikkerhet ved langvarig sykdom eller skade.", icon: Briefcase },
     { id: "kritisk", label: "Kritisk sykdom", description: "Engangsutbetaling ved alvorlig sykdom.", icon: Shield },
-    { id: "barn", label: "Barneforsikring", description: "Trygghet for barna dine ved sykdom, ulykke eller varig skade.", icon: Baby },
-    { id: "helse", label: "Helseforsikring", description: "Gir rask tilgang til privat behandling og spesialisthelsetjenester.", icon: HeartPulse },
-    { id: "ulykke", label: "Ulykkesforsikring", description: "Engangsutbetaling ved ulykke som gir varig skade.", icon: Shield },
+    { id: "barn", label: "Barneforsikring", description: "Trygghet ved sykdom, ulykke eller varig skade.", icon: Baby },
+    { id: "helse", label: "Helseforsikring", description: "Rask tilgang til privat behandling.", icon: HeartPulse },
+    { id: "ulykke", label: "Ulykkesforsikring", description: "Dekker ulykker som gir varig skade.", icon: Shield },
   ],
 };
 
@@ -79,54 +82,74 @@ export default function ForsikringerPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-32 pt-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-blue-800 text-center mb-12">
+    <main className="min-h-screen bg-gray-50 pb-32 pt-10 px-4">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="text-3xl font-bold text-blue-800 text-center mb-6">
           Sammenlign tilbud på forsikringene dine
         </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-16">
-            Velg alle forsikringene du ønsker tilbud på - få tilbud fra flere etablerte selskaper.
-          </p>
 
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10 text-center">
+          Velg forsikringene du ønsker tilbud på – få tilbud fra flere selskaper.
+        </p>
+
+        {/* CATEGORIES */}
         {Object.entries(groupedProducts).map(([category, products]) => (
-          <div key={category} className="mb-12">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-l-4 border-blue-600 pl-3">
+          <div key={category} className="mb-10">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4 border-l-4 border-blue-600 pl-3">
               {category}
             </h2>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {products.map((product) => {
                 const Icon = product.icon;
+                const isPopular = popularProducts.includes(product.id);
+
                 return (
                   <div
                     key={product.id}
-                    className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col justify-between hover:shadow-md transition"
+                    className="
+                      bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex flex-col justify-between
+                      hover:shadow-lg hover:-translate-y-1 transition-all duration-300
+                    "
                   >
                     <div>
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="bg-blue-50 p-3 rounded-lg">
-                          <Icon className="text-blue-600" size={26} />
+                      <div className="flex items-center justify-between mb-3">
+                        {/* Icon + label */}
+                        <div className="flex items-center gap-3">
+                          <div className="bg-blue-50 p-2.5 rounded-lg">
+                            <Icon className="text-blue-600" size={22} />
+                          </div>
+                          <h3 className="text-base font-semibold text-gray-800">
+                            {product.label}
+                          </h3>
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-800">
-                          {product.label}
-                        </h3>
+
+                        {/* POPULAR BADGE */}
+                        {isPopular && (
+                          <span className="text-xs font-semibold bg-yellow-300 text-gray-800 px-2 py-1 rounded-full shadow-sm">
+                            ⭐ Populær
+                          </span>
+                        )}
                       </div>
-                      <p className="text-gray-600 text-sm mb-6">
+
+                      <p className="text-gray-600 text-sm leading-relaxed mb-4">
                         {product.description}
                       </p>
                     </div>
 
-                    {/* Teller */}
-                    <div className="flex items-center justify-center gap-4 mt-auto">
+                    {/* COUNTER */}
+                    <div className="flex items-center justify-center gap-3 mt-auto">
                       <button
                         onClick={() => decrease(product.id)}
                         className="bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 transition"
                       >
                         −
                       </button>
-                      <span className="text-lg font-semibold text-gray-800 w-6 text-center">
+
+                      <span className="text-base font-semibold text-gray-800 w-5 text-center">
                         {counts[product.id]}
                       </span>
+
                       <button
                         onClick={() => increase(product.id)}
                         className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-blue-700 transition"
@@ -140,18 +163,9 @@ export default function ForsikringerPage() {
             </div>
           </div>
         ))}
-
-        <div className="text-center mt-12 mb-24">
-          <button
-            onClick={() => router.push("/")}
-            className="text-blue-700 hover:underline font-medium"
-          >
-            ← Tilbake til forsiden
-          </button>
-        </div>
       </div>
 
-      {/* === RESPONSIVE STICKY FOOTER === */}
+      {/* === STICKY FOOTER === */}
       {totalSelected > 0 && (
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="mx-auto w-full max-w-5xl px-3 sm:px-4">
@@ -164,28 +178,22 @@ export default function ForsikringerPage() {
               px-4 py-3
               animate-slide-up
             ">
-
-              {/* Øverste rad — 1 kolonne på mobil, 2 på desktop */}
               <div className="
                 flex flex-col sm:flex-row
                 items-start sm:items-center
                 justify-between
                 gap-3
               ">
-                {/* Venstre seksjon */}
                 <div className="flex items-center gap-3">
                   <div className="bg-blue-700 text-white font-semibold rounded-full w-9 h-9 flex items-center justify-center shadow">
                     {totalSelected}
                   </div>
 
                   <p className="font-semibold text-gray-900 text-base">
-                    {totalSelected === 1
-                      ? "Forsikring valgt"
-                      : "Forsikringer valgt"}
+                    {totalSelected === 1 ? "Forsikring valgt" : "Forsikringer valgt"}
                   </p>
                 </div>
 
-                {/* Knapp — full bredde på mobil, normal på desktop */}
                 <button
                   onClick={handleGetOffer}
                   className="
@@ -202,7 +210,6 @@ export default function ForsikringerPage() {
                 </button>
               </div>
 
-              {/* Progress-bar */}
               <div className="mt-3">
                 <div className="h-3 bg-blue-100 rounded-full overflow-hidden shadow-inner">
                   <div
@@ -221,12 +228,10 @@ export default function ForsikringerPage() {
                     : "🎉 Du har full samlerabatt!"}
                 </p>
               </div>
-
             </div>
           </div>
         </div>
       )}
-
     </main>
   );
 }
