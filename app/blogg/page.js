@@ -42,7 +42,7 @@ export default function BlogPage() {
           </h1>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
             Les våre guider, tips og artikler om hvordan du får mest mulig igjen
-            for forsikringen din – og unngår vanlige feil.
+            for forsikringen din, og unngår vanlige feil.
           </p>
         </div>
       </section>
@@ -96,7 +96,7 @@ export default function BlogPage() {
             Klar for å se hvor mye du kan spare?
           </h2>
           <p className="text-lg mb-8 opacity-90">
-            Fyll ut ett skjema – få tilbud fra flere rådgivere – og velg det som passer deg best.
+            Fyll ut ett skjema, få tilbud fra flere rådgivere, og velg det som passer deg best.
           </p>
           <Link
             href="/forsikringer"
