@@ -54,7 +54,7 @@ export default function BlogPage() {
             Nyeste artikler
           </h2>
           <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-            Oppdaterte råd fra erfarne forsikringsrådgivere og øonomer.
+            Oppdaterte råd fra erfarne forsikringsrådgivere og økonomer.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 text-left">
