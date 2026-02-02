@@ -6,18 +6,21 @@ import { BookOpen, PenLine, Newspaper } from "lucide-react";
 export default function BlogPage() {
   const articles = [
     {
+      slug: "guide-til-bilforsikring",
       bilde: "/guide-bil.jpg",
       tittel: "Guide til bilforsikring",
       tekst: 
         "Forstå bonus, egenandel og dekninger før du velger bilforsikring.",
     },
     {
+      slug: "guide-til-hus-og-innbo",
       bilde: "/guide-hus.jpg",
       tittel: "Guide til hus- og innboforsikring",
       tekst:
         "Hvordan sikrer du hjemmet ditt riktig, og unngår over- eller underforsikring?",
     },
     {
+      slug: "guide-til-reiseforsikring",
       bilde: "/guide-reise.jpg",
       tittel: "Guide til reiseforsikring",
       tekst:
@@ -77,7 +80,7 @@ export default function BlogPage() {
                   </h3>
                   <p className="text-gray-600 mb-4">{artikkel.tekst}</p>
                   <Link
-                    href="#"
+                    href={`/blogg/${artikkel.slug}`}
                     className="text-blue-600 hover:text-blue-800 font-medium"
                   >
                     Les mer →
