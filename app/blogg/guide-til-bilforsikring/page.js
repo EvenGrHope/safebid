@@ -1,52 +1,29 @@
 import Link from "next/link";
 
-export function generateStaticParams() {
-  return [{ slug: "guide-til-bilforsikring" }];
-}
-
-const articles = {
-  "guide-til-bilforsikring": {
-    tittel: "Guide til bilforsikring",
-    ingress:
-      "Bilforsikring kan være komplisert. Her får du en enkel og praktisk gjennomgang av hva du faktisk bør bry deg om – og hva som ofte er unødvendig.",
-  },
-};
-
-export default function BlogArticle({ params }) {
-  const slug = params?.slug;
-  const article = articles[slug];
-
-  if (!article) {
-    return (
-      <main className="max-w-3xl mx-auto px-6 py-20">
-        <h1 className="text-2xl font-bold">Artikkel ikke funnet</h1>
-        <Link href="/blogg" className="text-blue-600 underline mt-4 block">
-          ← Tilbake til bloggen
-        </Link>
-      </main>
-    );
-  }
-
+export default function BilforsikringArtikkel() {
   return (
     <main className="bg-gray-50 min-h-screen">
-      {/* Hero */}
       <section className="bg-white border-b border-gray-200">
         <div className="max-w-3xl mx-auto px-6 py-20">
           <p className="text-blue-600 font-medium mb-3">Bilforsikring</p>
-          <h1 className="text-4xl font-bold mb-6">{article.tittel}</h1>
-          <p className="text-lg text-gray-700">{article.ingress}</p>
+          <h1 className="text-4xl font-bold mb-6">
+            Guide til bilforsikring
+          </h1>
+          <p className="text-lg text-gray-700">
+            Bilforsikring kan være komplisert. Her får du en enkel og praktisk
+            gjennomgang av hva du faktisk bør bry deg om.
+          </p>
         </div>
       </section>
 
-      {/* Content */}
       <section className="max-w-3xl mx-auto px-6 py-16 prose prose-lg">
         <h2>Hva er bilforsikring?</h2>
         <p>
-          Bilforsikring er en avtale som beskytter deg økonomisk dersom bilen blir
-          skadet, stjålet eller forårsaker skade på andre.
+          Bilforsikring beskytter deg økonomisk dersom bilen blir skadet,
+          stjålet eller forårsaker skade på andre.
         </p>
 
-        <h2>Forsikringstyper</h2>
+        <h2>Typer bilforsikring</h2>
         <ul>
           <li><strong>Ansvar</strong> – lovpålagt</li>
           <li><strong>Delkasko</strong> – brann, tyveri, glass</li>
@@ -59,7 +36,6 @@ export default function BlogArticle({ params }) {
         </p>
       </section>
 
-      {/* CTA */}
       <section className="bg-blue-700 text-white py-16 mt-20">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">
