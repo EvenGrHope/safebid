@@ -80,7 +80,7 @@ export default function BlogPage() {
                   </h3>
                   <p className="text-gray-600 mb-4">{artikkel.tekst}</p>
                   <Link
-                    href="/blogg/guide-til-bilforsikring"
+                    href={`/blogg/${artikkel.slug}`}
                     className="text-blue-600 hover:text-blue-800 font-medium"
                   >
                     Les mer →
