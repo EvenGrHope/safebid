@@ -1,5 +1,13 @@
 import Link from "next/link";
 
+export function generateStaticParams() {
+  return [
+    { slug: "guide-til-bilforsikring" },
+    { slug: "guide-til-hus-og-innbo" },
+    { slug: "guide-til-reiseforsikring" },
+  ];
+}
+
 export default function BlogArticle({ params }) {
   const { slug } = params;
 
